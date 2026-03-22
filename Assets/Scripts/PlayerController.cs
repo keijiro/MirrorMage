@@ -13,16 +13,21 @@ public class PlayerController : MonoBehaviour
     private bool _isBarrierActive = false;
 
     private Camera _cam;
+    private Animator _animator;
+    private Vector3 _lastPosition;
 
     void Start()
     {
         _cam = Camera.main;
+        _animator = GetComponent<Animator>();
+        _lastPosition = transform.position;
         if (barrierObject != null) barrierObject.SetActive(false);
     }
 
     void Update()
     {
         FollowMouse();
+        UpdateAnimations();
         HandleBarrier();
     }
 
@@ -39,6 +44,29 @@ public class PlayerController : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, worldPos, moveSpeed * Time.deltaTime);
         }
+    }
+
+    void UpdateAnimations()
+    {
+        Vector3 movement = transform.position - _lastPosition;
+        float speed = movement.magnitude / Time.deltaTime;
+
+        if (_animator != null)
+        {
+            if (speed > 0.01f)
+            {
+                Vector3 direction = movement.normalized;
+                _animator.SetFloat("MoveX", direction.x);
+                _animator.SetFloat("MoveY", direction.y);
+                _animator.SetBool("IsMoving", true);
+            }
+            else
+            {
+                _animator.SetBool("IsMoving", false);
+            }
+        }
+
+        _lastPosition = transform.position;
     }
 
     void HandleBarrier()
