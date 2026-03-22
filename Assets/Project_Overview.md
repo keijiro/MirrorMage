@@ -1,82 +1,93 @@
-# Project Overview: Project Reflect
+# MirrorMage Project Overview
 
 ## 1. Project Description
-**Project Reflect** is a 2D top-down action prototype where the primary mechanic centers around a defensive barrier capable of reflecting enemy projectiles. Players must navigate a hazardous environment, timing their barrier activation to turn incoming fire back against a persistent wave of spawning enemies. The project serves as a technical demonstration of projectile reflection physics, enemy spawning logic, and mouse-driven character movement within a 2D URP environment.
+MirrorMage is a 2D top-down action game where the player controls a mage who survives by reflecting enemy projectiles back at them. The core experience centers around precise movement and the strategic use of a "Mirror Barrier" to turn defensive situations into offensive opportunities. It is designed as a fast-paced arcade-style survival experience.
 
 **Core Pillars:**
-*   **Reflective Combat:** Using defense as the primary offense by parrying/reflecting bullets.
-*   **Fluid Movement:** Mouse-following movement that allows for precise positioning.
-*   **Dynamic Difficulty:** Constant enemy pressure through automated spawning systems.
+*   **Reflective Combat:** Projectiles are not just hazards but the primary source of player damage via reflection.
+*   **Mouse-Driven Agility:** Fluid movement where the player character continuously follows the cursor.
+*   **Resource Management:** Balancing the short-duration barrier and its cooldown to survive bullet-hell patterns.
 
 ## 2. Gameplay Flow / User Loop
-1.  **Initialization:** The game starts in the `Main` scene. The `EnemySpawner` begins generating enemies at a set distance from the center.
-2.  **Navigation:** The player moves the mouse cursor; the player character automatically moves toward the cursor position using `Vector3.MoveTowards`.
-3.  **Threat Engagement:** Enemies track the player's position and fire projectiles in spread patterns.
-4.  **Action/Counter-Action:** 
-    *   The player triggers the **Barrier** (Left Mouse Button).
-    *   While the barrier is active, any `Projectile` colliding with it is marked as `isReflected`, has its velocity mirrored via a surface normal, and increases in speed.
-    *   Reflected projectiles can destroy `Enemy` units.
-5.  **Failure State:** If an un-reflected projectile or an enemy unit touches the player, a hit is registered (currently logged to the console).
-6.  **Cooldown Management:** The barrier has a limited duration and a cooldown period, forcing the player to time its use strategically.
+1.  **Boot/Initialization:** The `Main.unity` scene loads. The `EnemySpawner` begins generating enemies at a set interval outside the camera view.
+2.  **Engagement:** Enemies move toward the player and fire patterns of projectiles (spread shots).
+3.  **Core Loop:**
+    *   **Move:** Player uses the mouse to reposition the character.
+    *   **Defend/Attack:** Player activates the `Barrier` (Left Click) to intercept projectiles. 
+    *   **Reflect:** Projectiles hitting the active barrier become "Reflected" (increasing speed and changing color) and are redirected based on the angle of impact.
+    *   **Eliminate:** Reflected projectiles destroy enemies on contact.
+4.  **Attrition:** If the player is hit by an unreflected projectile or an enemy, damage is logged (extendable to a health system).
 
 ## 3. Architecture
-The project follows a standard Unity Component-based architecture with a "Manager-less" approach for this prototype, where individual systems handle their own logic via `Update` loops.
+The project follows a component-based architecture where behavior is localized within specific MonoBehaviors that interact via Unity's Physics2D system (Triggers).
 
-*   **Input Handling:** Uses the **New Input System** (Package: `com.unity.inputsystem`). Inputs are polled directly in `PlayerController.cs` using `Mouse.current`.
-*   **Movement & Physics:** Uses `Rigidbody2D` for physical presence and `CircleCollider2D` for trigger-based interactions. Movement is calculated manually in `Update` and applied via `transform.position`.
-*   **Projectile System:** A "Fire and Forget" system where projectiles move in a linear direction until they collide with a barrier, an enemy, or leave a specific radius from the origin.
-*   **Rendering:** Built on the **Universal Render Pipeline (URP)** with a 2D Renderer configuration.
+*   **Entry Point:** The `Main.unity` scene contains the `Player`, `EnemySpawner`, and `UI` root.
+*   **Input:** Utilizes the **New Input System**. `PlayerController` reads `Mouse.current` for positioning and clicking.
+*   **Communication:** 
+    *   **Collision-Based:** Most logic (damage, reflection) is triggered by `OnTriggerEnter2D`.
+    *   **State-Driven:** The `PlayerController` manages the state of the `Barrier` child object.
+*   **Data Flow:** Projectile data (direction, speed, reflected state) is passed to the projectile upon instantiation or reflection.
+
+`Location: Assets/Scripts`
 
 ## 4. Game Systems & Domain Concepts
 
-### Player Control System
-*   `PlayerController`: Manages mouse-following movement, animation state updates (`MoveX`, `MoveY`, `IsMoving`), and the activation/deactivation logic of the Barrier sub-object.
-*   **Extension:** To add new abilities (e.g., a dash), add a new state check in `HandleBarrier` or a similar input polling method.
+### Movement System
+Handles player and enemy positioning.
+*   `PlayerController`: Implements cursor-following logic using `Vector3.MoveTowards`.
+*   `Enemy`: Implements simple tracking toward the player's transform.
+*   `Projectile`: Moves linearly based on a `direction` vector.
 
-`Location: Assets/Scripts/PlayerController.cs`
+`Location: Assets/Scripts`
 
 ### Combat & Reflection System
-*   `Barrier`: A child object of the Player with a trigger collider. On `OnTriggerEnter2D`, it calculates the normal vector from the barrier center to the projectile and calls the reflection logic.
-*   `Projectile`: Handles linear movement and collision logic. It maintains an `isReflected` state; if true, it gains a speed boost and becomes lethal to enemies instead of the player.
-*   **Pattern:** The system uses a **State-based Projectile** pattern where the projectile's behavior and target-tag filtering change based on the `isReflected` flag.
+The primary mechanic for interaction.
+*   `Barrier`: Detects projectiles and calls the `Reflect` method.
+*   `Projectile`: Manages its own state (`isReflected`). When reflected, it uses `Vector2.Reflect` against the normal calculated from the barrier's center to the impact point.
+*   `Enemy`: Contains the `Shoot` logic, creating spread patterns using `Quaternion.Euler` rotations.
 
-`Location: Assets/Scripts/`
+`Location: Assets/Scripts`
 
-### Enemy & Spawning System
-*   `Enemy`: Simple AI that follows the player's transform and fires projectiles at a fixed `fireRate` using a spread-shot pattern.
-*   `EnemySpawner`: Spawns the `Enemy.prefab` at a randomized point on a circle perimeter (defined by `spawnDistance`) at regular intervals.
-*   **Extension:** Create new enemy types by inheriting from `Enemy` or creating a ScriptableObject-based stat system for `fireRate` and `spreadAngle`.
+### Spawning System
+Manages the game's difficulty and entity lifecycle.
+*   `EnemySpawner`: Spawns enemies on a timer at a normalized distance around the center (0,0).
+*   `Projectile`: Includes self-cleanup logic when moving too far from the origin.
 
-`Location: Assets/Scripts/`
+`Location: Assets/Scripts`
 
 ## 5. Scene Overview
 *   **Main.unity:** The primary gameplay scene. It contains:
-    *   **Main Camera:** Set to Orthographic with a background color.
-    *   **Player:** The central entity with the `PlayerController` and child `Barrier`.
-    *   **EnemySpawner:** A controller object managing the lifecycle of enemy instances.
-    *   **Global Volume:** URP Post-processing settings (Bloom/Vignette).
+    *   `Camera`: Standard 2D view with `UniversalAdditionalCameraData`.
+    *   `Player`: The player entity with a nested `Barrier` object.
+    *   `EnemySpawner`: The manager for enemy lifecycle.
+    *   `UI`: A `UIDocument` for the HUD/Interface.
+*   **Scene Transitions:** Currently, the project operates within a single-scene loop.
 
-`Location: Assets/Main.unity`
+`Location: Assets/`
 
 ## 6. UI System
-The project uses **UI Toolkit (UITK)** for its interface, though the current implementation is minimal.
-*   `Main.uxml`: Defines the visual structure of the UI.
-*   `DefaultPanel.asset`: Standard UITK panel settings for URP.
-*   `DefaultTheme.tss`: The style sheet governing UI appearance.
+The project uses **UI Toolkit (UITK)** for its interface.
+*   `UIDocument`: The component on the `UI` GameObject that hosts the interface.
+*   `Main.uxml`: Defines the structure of the UI.
+*   `DefaultTheme.tss`: Provides the visual styling.
+*   `DefaultPanel.asset`: Contains the panel settings for rendering.
 
-`Location: Assets/UI/`
+`Location: Assets/UI`
 
 ## 7. Asset & Data Model
 *   **Prefabs:** 
-    *   `Enemy.prefab`: Contains `SpriteRenderer`, `CircleCollider2D`, and the `Enemy` script.
-    *   `Projectile.prefab`: Contains the `Projectile` script and a dedicated bullet sprite.
-*   **Animations:** Uses an `AnimatorController` with a 2D Blend Tree (or similar parameter setup) based on `MoveX` and `MoveY` to handle 4-directional movement (Up, Down, Left, Right).
-*   **Rendering:** Uses `Renderer2DData` (URP) to handle 2D lighting and sprite sorting.
+    *   `Enemy.prefab`: Pre-configured with `Enemy.cs`, `Animator`, and `CircleCollider2D`.
+    *   `Projectile.prefab`: Pre-configured with `Projectile.cs` and `CircleCollider2D` (Trigger).
+*   **Animations:** 
+    *   `PlayerController.controller` & `Skeleton_Controller.controller`: Handle basic walk cycles. 
+    *   `Player_Walk.anim` & `Skeleton_Walk.anim`: Frame-based 2D animations.
+*   **Rendering:** Uses **Universal Render Pipeline (URP)** with a 2D Renderer.
+*   **Naming Conventions:** Scripts use PascalCase; private variables in scripts use `_camelCase` with an underscore prefix (e.g., `_barrierTimer`).
 
-`Location: Assets/Prefabs/`, `Assets/Animations/`, `Assets/URP/`
+`Location: Assets/`
 
 ## 8. Notes, Caveats & Gotchas
-*   **Hardcoded Boundaries:** Projectiles are destroyed if they exceed a distance of 50 units from `Vector2.zero` (`Projectile.cs`). If the player moves significantly away from the origin, projectiles may despawn prematurely.
-*   **Reflection Normal:** The reflection in `Barrier.cs` is calculated based on the vector from the barrier's center to the projectile. This assumes the barrier is perfectly circular.
-*   **Trigger Dependencies:** Both the Player and Enemy rely on `OnTriggerEnter2D`. Ensure that physics layers are correctly set if adding new obstacle types to prevent projectiles from reflecting off the player's body instead of the barrier.
-*   **Input Latency:** Since `FollowMouse` uses `Vector3.MoveTowards`, the player always trails slightly behind the cursor depending on the `moveSpeed` value.
+*   **Reflection Normal:** The `Barrier` calculates the reflection normal based on the vector from the barrier's center to the projectile. This means the projectile's bounce direction is highly sensitive to its position relative to the player at the moment of impact.
+*   **Tags:** The system relies heavily on tags (`Player`, `Enemy`, `Projectile`). Ensure any new prefabs have these tags assigned or collision logic will fail.
+*   **Z-Axis:** Although 2D, `ScreenToWorldPoint` uses a Z depth of 10f to ensure the camera (at Z: -10) picks up the correct world position, which is then flattened to Z: 0.
+*   **Animation Direction:** The `PlayerController` and `Enemy` handle sprite flipping in code via `spriteRenderer.flipX` based on the movement vector, rather than using Animator parameters.

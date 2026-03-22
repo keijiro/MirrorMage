@@ -10,9 +10,14 @@ public class Enemy : MonoBehaviour
 
     private Transform _player;
     private float _fireTimer;
+    private SpriteRenderer _spriteRenderer;
+    private Animator _animator;
 
     void Start()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
+
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) _player = playerObj.transform;
         _fireTimer = fireRate;
@@ -24,6 +29,10 @@ public class Enemy : MonoBehaviour
         {
             Vector2 direction = (_player.position - transform.position).normalized;
             transform.Translate(direction * moveSpeed * Time.deltaTime);
+
+            // Sprite flipping logic based on movement direction
+            if (direction.x > 0.05f) _spriteRenderer.flipX = true; // Faces right
+            else if (direction.x < -0.05f) _spriteRenderer.flipX = false; // Faces left (Southwest)
 
             _fireTimer -= Time.deltaTime;
             if (_fireTimer <= 0)
