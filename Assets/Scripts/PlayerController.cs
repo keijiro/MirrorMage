@@ -14,12 +14,14 @@ public class PlayerController : MonoBehaviour
 
     private Camera _cam;
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
     private Vector3 _lastPosition;
 
     void Start()
     {
         _cam = Camera.main;
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _lastPosition = transform.position;
         if (barrierObject != null) barrierObject.SetActive(false);
     }
@@ -49,21 +51,15 @@ public class PlayerController : MonoBehaviour
     void UpdateAnimations()
     {
         Vector3 movement = transform.position - _lastPosition;
-        float speed = movement.magnitude / Time.deltaTime;
+        float speed = (Time.deltaTime > 0) ? movement.magnitude / Time.deltaTime : 0;
 
-        if (_animator != null)
+        if (speed > 0.01f)
         {
-            if (speed > 0.01f)
-            {
-                Vector3 direction = movement.normalized;
-                _animator.SetFloat("MoveX", direction.x);
-                _animator.SetFloat("MoveY", direction.y);
-                _animator.SetBool("IsMoving", true);
-            }
-            else
-            {
-                _animator.SetBool("IsMoving", false);
-            }
+            Vector3 direction = movement.normalized;
+            // Base sprite is front-left (diagonal-left). 
+            // flipX = true -> faces front-right.
+            if (direction.x > 0.05f) _spriteRenderer.flipX = true;
+            else if (direction.x < -0.05f) _spriteRenderer.flipX = false;
         }
 
         _lastPosition = transform.position;
@@ -114,7 +110,6 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Enemy") || (other.CompareTag("Projectile") && !other.GetComponent<Projectile>().isReflected))
         {
             Debug.Log("Player hit!");
-            // Add damage logic if needed
         }
     }
 }
