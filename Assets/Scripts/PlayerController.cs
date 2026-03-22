@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
     private Vector3 _lastPosition;
+    private Barrier _barrierScript;
 
     void Start()
     {
@@ -23,7 +24,11 @@ public class PlayerController : MonoBehaviour
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _lastPosition = transform.position;
-        if (barrierObject != null) barrierObject.SetActive(false);
+        if (barrierObject != null)
+        {
+            _barrierScript = barrierObject.GetComponent<Barrier>();
+            barrierObject.SetActive(false);
+        }
     }
 
     void Update()
@@ -93,14 +98,16 @@ public class PlayerController : MonoBehaviour
     {
         _isBarrierActive = true;
         _barrierTimer = barrierDuration;
-        if (barrierObject != null) barrierObject.SetActive(true);
+        if (_barrierScript != null) _barrierScript.Activate();
+        else if (barrierObject != null) barrierObject.SetActive(true);
     }
 
     void DeactivateBarrier()
     {
         _isBarrierActive = false;
         _cooldownTimer = barrierCooldown;
-        if (barrierObject != null) barrierObject.SetActive(false);
+        if (_barrierScript != null) _barrierScript.Deactivate();
+        else if (barrierObject != null) barrierObject.SetActive(false);
     }
 
     public bool IsBarrierActive() => _isBarrierActive;
