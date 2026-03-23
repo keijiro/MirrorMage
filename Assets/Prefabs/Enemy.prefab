@@ -112,6 +112,7 @@ MonoBehaviour:
   fireRate: 2
   spreadAngle: 45
   bulletCount: 3
+  deathEffectPrefab: {fileID: 3591265341649820116, guid: 53efe2b9aadf848b380f585f1be6f128, type: 3}
 --- !u!58 &2649124352066510024
 CircleCollider2D:
   m_ObjectHideFlags: 0
