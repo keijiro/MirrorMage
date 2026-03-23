@@ -8,6 +8,11 @@ public class PlayerController : MonoBehaviour
     public float barrierCooldown = 5f;
     public GameObject barrierObject;
 
+    public float maxHealth = 100f;
+    public float invincibilityDuration = 0.5f;
+    private float _currentHealth;
+    private bool _isInvincible = false;
+
     private float _barrierTimer = 0f;
     private float _cooldownTimer = 0f;
     private bool _isBarrierActive = false;
@@ -15,14 +20,33 @@ public class PlayerController : MonoBehaviour
     private Camera _cam;
     private Animator _animator;
     private SpriteRenderer _spriteRenderer;
+    private Transform _visuals;
     private Vector3 _lastPosition;
     private Barrier _barrierScript;
 
+    private void EnsureVisuals()
+    {
+        if (_visuals != null) return;
+        
+        _visuals = transform.Find("Visuals");
+        if (_visuals == null)
+        {
+            _visuals = transform;
+        }
+        
+        _animator = _visuals.GetComponent<Animator>();
+        _spriteRenderer = _visuals.GetComponent<SpriteRenderer>();
+        
+        if (_animator == null) _animator = GetComponent<Animator>();
+        if (_spriteRenderer == null) _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
     void Start()
     {
+        _currentHealth = maxHealth;
         _cam = Camera.main;
-        _animator = GetComponent<Animator>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        EnsureVisuals();
+        
         _lastPosition = transform.position;
         if (barrierObject != null)
         {
@@ -33,6 +57,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        EnsureVisuals(); // Safety for live updates
         FollowMouse();
         UpdateAnimations();
         HandleBarrier();
@@ -123,11 +148,75 @@ public class PlayerController : MonoBehaviour
         return 1f - (_cooldownTimer / barrierCooldown);
     }
 
+    public float GetHealthProgress() => _currentHealth / maxHealth;
+
+    public void TakeDamage(float amount)
+    {
+        if (_isInvincible || _isBarrierActive) return;
+
+        _currentHealth -= amount;
+        _currentHealth = Mathf.Clamp(_currentHealth, 0f, maxHealth);
+        Debug.Log($"Player took {amount} damage! Current HP: {_currentHealth}");
+
+        if (_currentHealth <= 0)
+        {
+            Debug.Log("Player Died!");
+        }
+        else
+        {
+            StartCoroutine(DamageRoutine());
+        }
+    }
+
+    private System.Collections.IEnumerator DamageRoutine()
+    {
+        _isInvincible = true;
+        EnsureVisuals();
+        
+        // Flash bright white initially with a random shake (on visuals only)
+        _spriteRenderer.color = new Color(2f, 2f, 2f, 1f); 
+        
+        float shakeDuration = 0.1f; 
+        float shakeElapsed = 0f;
+        float shakeMagnitude = 0.1f; // Balanced magnitude
+        Vector3 initialVisualsPos = _visuals.localPosition;
+
+        while (shakeElapsed < shakeDuration)
+        {
+            Vector3 shakeOffset = (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            _visuals.localPosition = initialVisualsPos + shakeOffset;
+            
+            yield return null;
+            shakeElapsed += Time.deltaTime;
+        }
+        
+        // Reset visuals position
+        _visuals.localPosition = initialVisualsPos;
+
+        // Blinking with red tint for the rest of duration
+        float blinkDuration = invincibilityDuration - shakeDuration;
+        float blinkElapsed = 0f;
+        float blinkRate = 0.05f;
+        bool isRed = true;
+
+        while (blinkElapsed < blinkDuration)
+        {
+            _spriteRenderer.color = isRed ? Color.red : Color.white;
+            isRed = !isRed;
+            yield return new WaitForSeconds(blinkRate);
+            blinkElapsed += blinkRate;
+        }
+
+        // Reset sprite color and invincibility
+        _spriteRenderer.color = Color.white;
+        _isInvincible = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy") || (other.CompareTag("Projectile") && !other.GetComponent<Projectile>().isReflected))
         {
-            Debug.Log("Player hit!");
+            TakeDamage(10f); // Default 10 damage for now
         }
     }
 }

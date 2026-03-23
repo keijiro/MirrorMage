@@ -1,70 +1,91 @@
-# MirrorMage Project Overview
+# MirrorMage Technical Project Overview
 
 ## 1. Project Description
-**MirrorMage** is a 2D top-down action game where the player controls a mage who survives not by attacking directly, but by reflecting enemy projectiles back at them. The core experience centers on timing and positioning, using a temporary magic barrier to turn an overwhelming bullet hell into a counter-offensive. It is designed as a focused arcade-style survival prototype using Unity’s Universal Render Pipeline (URP) and the New Input System.
+**MirrorMage** is a 2D action-survival game where the player controls a mage with the unique ability to reflect enemy projectiles back at them. The core experience centers on a "Risk vs. Reward" loop: players are vulnerable while moving towards enemies but can become a powerful offensive force by timing their barrier activation to catch and redirect incoming fire.
+
+**Core Pillars:**
+*   **Reflective Combat:** Defense is the best offense. Catching bullets with the barrier is the primary way to defeat enemies.
+*   **Precision Timing:** The barrier has a short duration and a significant cooldown, requiring tactical usage.
+*   **Dynamic Survival:** Players must balance movement (following the mouse) with the stationary-like commitment of barrier deployment.
 
 ## 2. Gameplay Flow / User Loop
-1.  **Boot**: The game starts in the `Main` scene.
-2.  **Survival**: The `EnemySpawner` continuously generates enemies at the edge of the screen that move toward the player.
-3.  **Engagement**: Enemies fire projectiles at the player. The player moves using mouse-based following logic.
-4.  **Reflection**: The player activates a `Barrier` (Left-Click) for a short duration. Projectiles hitting the active barrier are reflected, speed up, and can then destroy enemies.
-5.  **Failure/Reset**: If a projectile or enemy touches the player while the barrier is down, a hit is logged (currently a debug log for the prototype phase).
-6.  **Loop**: Survive as long as possible against increasing enemy pressure.
+1.  **Boot & Initialization:** The game starts in the `Main` scene. The `EnemySpawner` begins generating enemies at a distance.
+2.  **Movement:** The player follows the mouse cursor position in world space.
+3.  **Threat Engagement:** Enemies approach and fire multi-shot spread patterns at the player.
+4.  **Barrier Interaction:** 
+    *   Player presses Left Mouse Button to activate the `Barrier`.
+    *   If a `Projectile` hits the active barrier, it is reflected, its speed is doubled, and it changes color (indicating it is now lethal to enemies).
+5.  **State Transitions:** 
+    *   **Barrier Active:** Player is protected from projectiles and contact damage.
+    *   **Cooldown:** After 2 seconds, the barrier expires and enters a 5-second cooldown (tracked via `CooldownBar`).
+    *   **Damage/Death:** If hit while the barrier is down, the player takes damage and enters a brief invincibility/flicker state.
+6.  **Termination:** The loop continues until the player's health reaches zero (monitored by `PlayerHUD`).
 
 ## 3. Architecture
-The project follows a **Component-Based** architecture with a **Delegated Responsibility** pattern for collision and combat logic.
-*   **Input**: Managed via the New Input System, specifically polling `Mouse.current` for positioning and clicking.
-*   **Collision Logic**: Distributed across `Projectile.cs` and `Barrier.cs`. The barrier handles the calculation of the reflection vector, while the projectile handles its own state changes (e.g., `isReflected`) and damage application.
-*   **State Management**: `PlayerController` acts as a local state machine for the player, toggling between "Normal" and "Protected" (Barrier Active) states.
-*   **Entry Point**: The `Main` scene contains the `Player` object and an `EnemySpawner`.
+The project follows a **Component-Based Architecture** where logic is decentralized into specific behaviors that interact via Unity's Physics2D system and Tag-based filtering.
+
+**Main Entry Points:**
+*   **PlayerController:** The central hub for player input, health, and state management (Active/Cooldown/Invincible).
+*   **EnemySpawner:** Manages the game's difficulty floor by continuously instantiating enemy prefabs.
+*   **Input System:** Uses the new `com.unity.inputsystem` for mouse tracking and button events.
+
+**Data Flow:**
+*   **Input -> PlayerController:** Physical mouse/click data drives movement and barrier state.
+*   **Barrier -> Projectile:** Upon collision, the Barrier calls `Reflect()` on the Projectile, passing a surface normal.
+*   **Projectile -> Enemy:** Reflected projectiles trigger `Die()` on Enemy components.
 
 `Location: Assets/Scripts`
 
 ## 4. Game Systems & Domain Concepts
 
-### Movement System
-*   `PlayerController`: Implements a "Follow Mouse" mechanic where the character moves toward the world position of the cursor.
-*   `Enemy`: Implemented with simple linear interpolation/translation toward the player's transform.
+### Combat & Reflection System
+A physics-driven system where projectiles change "ownership" and properties based on collision with a player-managed barrier.
+*   `Projectile`: Handles movement and the reflection math using `Vector2.Reflect`.
+*   `Barrier`: A child object of the Player that manages its own visual "Expansion Effect" and detects projectile triggers.
+*   `Enemy`: AI that tracks the player and fires projectiles using a `spreadAngle` calculation.
 
-### Reflection Combat System
-*   `Barrier`: A child object of the player that handles trigger detection for projectiles. It calculates the reflection normal based on the vector from the barrier center to the projectile.
-*   `Projectile`: A moving entity that stores a `direction` and a `speed`. When reflected, its speed is doubled and its `isReflected` flag is set to true, allowing it to damage `Enemy` tags.
+**Extension:** To add new projectile types (e.g., homing), create a subclass of `Projectile` and override the movement logic while maintaining the `Reflect()` interface.
+`Location: Assets/Scripts`
 
-### Enemy & Spawning System
-*   `EnemySpawner`: Periodically instantiates enemies at a fixed distance in a random circular direction around the origin.
-*   `Enemy`: Handles shooting logic (spread fire) and a `DeathRoutine` that includes a visual shake/flicker effect before spawning a death prefab.
+### Health & Feedback System
+Manages entity lifecycles and provides visual cues for damage and state changes.
+*   `PlayerController`: Implements a `DamageRoutine` coroutine that handles screen shake (on visuals) and sprite flickering.
+*   `Enemy`: Implements a `DeathRoutine` that includes a pre-death shake, HDR-white flash, and instantiation of a `Flame_Death_Effect`.
 
+**Pattern:** The system uses **Coroutines** for time-based visual states (flashing, shaking, fading) to keep the `Update` loops clean.
 `Location: Assets/Scripts`
 
 ## 5. Scene Overview
-*   **Main**: The primary gameplay scene. It contains the 2D Renderer setup, the player character, the spawner, and global volume settings for post-processing (Kino Eight).
-*   **Scene Flow**: Currently a single-scene loop. All gameplay initialization occurs via `Start()` methods on MonoBehaviours within this scene.
+The project currently utilizes a single-scene structure:
+*   `Main`: Contains the player, global URP settings, UI Document, and the `EnemySpawner`.
+*   **Scene Flow:** Currently no scene transitions are implemented; the game operates as a single-level survival loop.
+*   **Constraints:** The `EnemySpawner` relies on `Vector2.zero` as the center of the world for its spawn radius calculations.
 
 `Location: Assets/Main.unity`
 
 ## 6. UI System
-The project uses **UI Toolkit (UITK)** for its interface.
-*   `Main.uxml`: Defines the visual layout of the UI.
-*   `DefaultPanel.asset`: Contains the panel settings for the UI Toolkit, linking the UXML to the game view.
-*   `DefaultTheme.tss`: Provides the styling for the UI elements.
-*   **Integration**: Currently, the UI is primarily a static overlay/HUD defined in the UXML.
+The project uses a hybrid approach: **UITK (UI Toolkit)** for HUD elements and **Sprite-based world-space UI** for gameplay indicators.
 
-`Location: Assets/UI`
+### HUD (UITK)
+*   `PlayerHUD`: Binds to `Main.uxml`. It queries a `VisualElement` named `healthBarFill` and scales its width based on the player's health percentage.
+*   `Main.uss`: Defines the styling and layout for the HUD.
+
+### Gameplay Indicators (UGUI/Sprites)
+*   `CooldownBar`: A world-space object attached to the Player. It uses `SpriteRenderer` masking and scale transforms to show the barrier's cooldown progress directly above the character.
+
+**Extension:** To add a "Score" display, add a Label to `Main.uxml` and update it via `PlayerHUD.cs`.
+`Location: Assets/UI` and `Assets/Scripts/PlayerHUD.cs`
 
 ## 7. Asset & Data Model
-*   **Prefabs**:
-    *   `Enemy.prefab`: Contains the `Enemy` script, Animator, and 2D Collider.
-    *   `Projectile.prefab`: A simple sprite with a trigger collider and the `Projectile` script.
-    *   `Flame_Death_Effect.prefab`: A visual-only prefab used by `SelfDestruct` to clean up after the death animation.
-*   **Animations**: Uses Unity's `AnimatorController` for sprite-based animations (Player walk, Enemy walk, Flame death).
-*   **Rendering**: Uses **URP 2D Renderer**. Post-processing is handled by `DefaultVolume.asset`, utilizing the `Kino.Eight` extension for a stylized retro look.
+*   **Prefabs:** The `Enemy` and `Projectile` prefabs are the primary units of content. They are modular and contain their own SFX/VFX triggers.
+*   **Animations:** Uses `AnimatorController` for state-driven sprite animations (`PlayerController`, `Skeleton_Controller`).
+*   **Rendering:** Powered by **URP (Universal Render Pipeline)**. The `2D Renderer` asset handles light and post-processing.
+*   **Naming Convention:** Scripts are PascalCase, while assets in folders generally follow the `Category_SpecificName` (e.g., `Flame_Death.anim`) or PascalCase convention.
 
 `Location: Assets/Prefabs`, `Assets/Animations`, `Assets/URP`
 
 ## 8. Notes, Caveats & Gotchas
-*   **Reflection Normal**: The `Barrier` calculates the reflection normal using `(other.transform.position - transform.position).normalized`. This assumes the barrier is a perfect circle centered on the player. If the barrier sprite/collider is non-uniform, reflection angles might feel counter-intuitive.
-*   **Death Timing**: The `SelfDestruct` script has a hardcoded delay of `0.44f` seconds, specifically timed to match the 16-frame "Flame_Death" animation at 36fps. Changing the animation length requires updating this script.
-*   **Screen Bounds**: The `Projectile` script destroys itself if it moves further than 50 units from `Vector2.zero`. If the player moves significantly far from the origin, projectiles might despawn prematurely or stay alive too long.
-*   **Input**: The `PlayerController` uses `Mouse.current` directly in `Update`. This is efficient for prototypes but would need a wrapper for remapping or controller support.
-
-`Location: Assets/Scripts`
+*   **Visuals Parenting:** The `PlayerController` expects a child object named `"Visuals"`. It applies shakes and flips to this child rather than the root to avoid disrupting physics or movement.
+*   **Reflection Math:** The `Reflect` logic in `Barrier.cs` calculates the normal from the barrier center to the projectile. This means the angle of reflection is determined by *where* on the circle the bullet hits, not just the bullet's incoming angle.
+*   **Z-Axis:** Although it is a 2D game, the `PlayerController` manually sets `worldPos.z = 0` to prevent the player from disappearing behind the camera or background planes.
+*   **Tag Dependency:** The system relies heavily on the `Player`, `Enemy`, and `Projectile` tags. Changing these tags in the editor without updating `OnTriggerEnter2D` logic will break combat.

@@ -1,0 +1,17 @@
+.hud-root {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.health-bar-container {
+    width: 100px;
+    height: 6px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-width: 1px;
+    border-color: #ffffff;
+}
+
+.health-bar-fill {
+    flex-grow: 1;
+    background-color: #ff4d4d;
+}
