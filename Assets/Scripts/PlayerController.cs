@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
     {
         _isBarrierActive = true;
         _barrierTimer = barrierDuration;
+        Debug.Log("Barrier Activated!");
         if (_barrierScript != null) _barrierScript.Activate();
         else if (barrierObject != null) barrierObject.SetActive(true);
     }
@@ -106,11 +107,21 @@ public class PlayerController : MonoBehaviour
     {
         _isBarrierActive = false;
         _cooldownTimer = barrierCooldown;
+        Debug.Log("Barrier Deactivated! Cooldown started.");
         if (_barrierScript != null) _barrierScript.Deactivate();
         else if (barrierObject != null) barrierObject.SetActive(false);
     }
 
     public bool IsBarrierActive() => _isBarrierActive;
+
+    public bool IsOnCooldown() => _cooldownTimer > 0 && !_isBarrierActive;
+
+    public float GetCooldownProgress()
+    {
+        if (_isBarrierActive) return 0f;
+        if (_cooldownTimer <= 0) return 0f;
+        return 1f - (_cooldownTimer / barrierCooldown);
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
