@@ -106,7 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e57f3ee5f9c2347b499eb782d6837b4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Projectile
-  speed: 4
+  speed: 2
   isReflected: 0
   direction: {x: 0, y: 0}
 --- !u!58 &4816049939007204389
