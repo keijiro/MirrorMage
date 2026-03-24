@@ -1,105 +1,57 @@
 fileFormatVersion: 2
-guid: 4d612e2fef9c744fdb30356238d3b3a1
+guid: ca5b68f06a611490daad112cf19ac1ee
 labels:
 - UnityAI
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6376929694002204820
-    second: Player_Walk_New_V2_0
+      213: -4176925312100004509
+    second: Enemy_Ghoul_V2_0
   - first:
-      213: 1113528844565421354
-    second: Player_Walk_New_V2_1
+      213: -3192713966672038579
+    second: Enemy_Ghoul_V2_1
   - first:
-      213: -4650891527090083236
-    second: Player_Walk_New_V2_2
+      213: -1779302004213171710
+    second: Enemy_Ghoul_V2_2
   - first:
-      213: -3924831367877845732
-    second: Player_Walk_New_V2_3
+      213: 5006108083807354320
+    second: Enemy_Ghoul_V2_3
   - first:
-      213: 7381456118490946937
-    second: Player_Walk_New_V2_4
+      213: 5380851703859785625
+    second: Enemy_Ghoul_V2_4
   - first:
-      213: -4732621315382861202
-    second: Player_Walk_New_V2_5
+      213: -38403781142886132
+    second: Enemy_Ghoul_V2_5
   - first:
-      213: -1302126513964043297
-    second: Player_Walk_New_V2_6
+      213: -8781062397259427036
+    second: Enemy_Ghoul_V2_6
   - first:
-      213: -5719678425274285583
-    second: Player_Walk_New_V2_7
+      213: 1262651372886152293
+    second: Enemy_Ghoul_V2_7
   - first:
-      213: -7801256308548636223
-    second: Player_Walk_New_V2_8
+      213: -3040402457756381821
+    second: Enemy_Ghoul_V2_8
   - first:
-      213: -3963133551069127937
-    second: Player_Walk_New_V2_9
+      213: 1868049419174434432
+    second: Enemy_Ghoul_V2_9
   - first:
-      213: 5722858843762133563
-    second: Player_Walk_New_V2_10
+      213: -3786933147427373961
+    second: Enemy_Ghoul_V2_10
   - first:
-      213: 7402765549584947678
-    second: Player_Walk_New_V2_11
+      213: -679082105574805527
+    second: Enemy_Ghoul_V2_11
   - first:
-      213: 5987464217876601416
-    second: Player_Walk_New_V2_12
+      213: 3154261753713660424
+    second: Enemy_Ghoul_V2_12
   - first:
-      213: 5006989788778158610
-    second: Player_Walk_New_V2_13
+      213: 4908678864957698935
+    second: Enemy_Ghoul_V2_13
   - first:
-      213: 7144061901984080108
-    second: Player_Walk_New_V2_14
+      213: -4036214947366222217
+    second: Enemy_Ghoul_V2_14
   - first:
-      213: 8008200647984944713
-    second: Player_Walk_New_V2_15
-  - first:
-      213: -6737816443974182337
-    second: Player_V2_0
-  - first:
-      213: -6396217756612256881
-    second: Player_V2_1
-  - first:
-      213: 5792492472292404906
-    second: Player_V2_2
-  - first:
-      213: -894007483538052380
-    second: Player_V2_3
-  - first:
-      213: 3518992234202860566
-    second: Player_V2_4
-  - first:
-      213: 4918829902725784379
-    second: Player_V2_5
-  - first:
-      213: 7360432380798312127
-    second: Player_V2_6
-  - first:
-      213: 9183970076220880689
-    second: Player_V2_7
-  - first:
-      213: 6426044887559206685
-    second: Player_V2_8
-  - first:
-      213: 5011415230497911530
-    second: Player_V2_9
-  - first:
-      213: 2514905271557801284
-    second: Player_V2_10
-  - first:
-      213: 488650965572997054
-    second: Player_V2_11
-  - first:
-      213: -3771678428759480974
-    second: Player_V2_12
-  - first:
-      213: -5333233134487776496
-    second: Player_V2_13
-  - first:
-      213: 1391295159932195637
-    second: Player_V2_14
-  - first:
-      213: 7008482998743850605
-    second: Player_V2_15
+      213: -8797745558246365716
+    second: Enemy_Ghoul_V2_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -119,7 +71,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 0
+  isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -208,7 +160,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Player_V2_0
+      name: Enemy_Ghoul_V2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -223,14 +175,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f3a122784a77e72a0800000000000000
-      internalID: -6737816443974182337
+      spriteID: 36d01f61f849806c0800000000000000
+      internalID: -4176925312100004509
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_1
+      name: Enemy_Ghoul_V2_1
       rect:
         serializedVersion: 2
         x: 256
@@ -245,14 +197,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f8b9417c6d11c37a0800000000000000
-      internalID: -6396217756612256881
+      spriteID: d45b513209331b3d0800000000000000
+      internalID: -3192713966672038579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_2
+      name: Enemy_Ghoul_V2_2
       rect:
         serializedVersion: 2
         x: 512
@@ -267,14 +219,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: aaeec1fa631136050800000000000000
-      internalID: 5792492472292404906
+      spriteID: 20abbba1146ae47e0800000000000000
+      internalID: -1779302004213171710
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_3
+      name: Enemy_Ghoul_V2_3
       rect:
         serializedVersion: 2
         x: 768
@@ -289,14 +241,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 4ea6c2d2ee8d793f0800000000000000
-      internalID: -894007483538052380
+      spriteID: 0dd7c8a57c4497540800000000000000
+      internalID: 5006108083807354320
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_4
+      name: Enemy_Ghoul_V2_4
       rect:
         serializedVersion: 2
         x: 0
@@ -311,14 +263,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 61c0507eac8f5d030800000000000000
-      internalID: 3518992234202860566
+      spriteID: 99f2e9d9d10acaa40800000000000000
+      internalID: 5380851703859785625
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_5
+      name: Enemy_Ghoul_V2_5
       rect:
         serializedVersion: 2
         x: 256
@@ -333,14 +285,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b332a864cb1334440800000000000000
-      internalID: 4918829902725784379
+      spriteID: c0942fae6ff877ff0800000000000000
+      internalID: -38403781142886132
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_6
+      name: Enemy_Ghoul_V2_6
       rect:
         serializedVersion: 2
         x: 512
@@ -355,14 +307,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: fbe14cac042852660800000000000000
-      internalID: 7360432380798312127
+      spriteID: 423dfc41646632680800000000000000
+      internalID: -8781062397259427036
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_7
+      name: Enemy_Ghoul_V2_7
       rect:
         serializedVersion: 2
         x: 768
@@ -377,14 +329,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 13776f42024047f70800000000000000
-      internalID: 9183970076220880689
+      spriteID: 564d90cdbb6d58110800000000000000
+      internalID: 1262651372886152293
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_8
+      name: Enemy_Ghoul_V2_8
       rect:
         serializedVersion: 2
         x: 0
@@ -399,14 +351,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d177ea157c5ed2950800000000000000
-      internalID: 6426044887559206685
+      spriteID: 38dc43bc2125ec5d0800000000000000
+      internalID: -3040402457756381821
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_9
+      name: Enemy_Ghoul_V2_9
       rect:
         serializedVersion: 2
         x: 256
@@ -421,14 +373,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ae27fcbb99f1c8540800000000000000
-      internalID: 5011415230497911530
+      spriteID: 08654c4ac05ace910800000000000000
+      internalID: 1868049419174434432
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_10
+      name: Enemy_Ghoul_V2_10
       rect:
         serializedVersion: 2
         x: 512
@@ -443,14 +395,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 445c5fa150db6e220800000000000000
-      internalID: 2514905271557801284
+      spriteID: 77c707fcd5c127bc0800000000000000
+      internalID: -3786933147427373961
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_11
+      name: Enemy_Ghoul_V2_11
       rect:
         serializedVersion: 2
         x: 768
@@ -465,14 +417,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ebf4126d67908c600800000000000000
-      internalID: 488650965572997054
+      spriteID: 9efa3e34c6a6396f0800000000000000
+      internalID: -679082105574805527
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_12
+      name: Enemy_Ghoul_V2_12
       rect:
         serializedVersion: 2
         x: 0
@@ -487,14 +439,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 275a9c6c37e48abc0800000000000000
-      internalID: -3771678428759480974
+      spriteID: 80214be5a5036cb20800000000000000
+      internalID: 3154261753713660424
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_13
+      name: Enemy_Ghoul_V2_13
       rect:
         serializedVersion: 2
         x: 256
@@ -509,14 +461,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 013538a88bc8cf5b0800000000000000
-      internalID: -5333233134487776496
+      spriteID: 773754e9b612f1440800000000000000
+      internalID: 4908678864957698935
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_14
+      name: Enemy_Ghoul_V2_14
       rect:
         serializedVersion: 2
         x: 512
@@ -531,14 +483,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5339a79939fde4310800000000000000
-      internalID: 1391295159932195637
+      spriteID: 7764d11e3eb7cf7c0800000000000000
+      internalID: -4036214947366222217
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Player_V2_15
+      name: Enemy_Ghoul_V2_15
       rect:
         serializedVersion: 2
         x: 768
@@ -553,8 +505,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d6edd72a722234160800000000000000
-      internalID: 7008482998743850605
+      spriteID: ce56478f60128e580800000000000000
+      internalID: -8797745558246365716
       vertices: []
       indices: 
       edges: []
@@ -573,54 +525,38 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Player_V2_0: -6737816443974182337
-      Player_V2_1: -6396217756612256881
-      Player_V2_10: 2514905271557801284
-      Player_V2_11: 488650965572997054
-      Player_V2_12: -3771678428759480974
-      Player_V2_13: -5333233134487776496
-      Player_V2_14: 1391295159932195637
-      Player_V2_15: 7008482998743850605
-      Player_V2_2: 5792492472292404906
-      Player_V2_3: -894007483538052380
-      Player_V2_4: 3518992234202860566
-      Player_V2_5: 4918829902725784379
-      Player_V2_6: 7360432380798312127
-      Player_V2_7: 9183970076220880689
-      Player_V2_8: 6426044887559206685
-      Player_V2_9: 5011415230497911530
-      Player_Walk_New_V2_0: -6376929694002204820
-      Player_Walk_New_V2_1: 1113528844565421354
-      Player_Walk_New_V2_10: 5722858843762133563
-      Player_Walk_New_V2_11: 7402765549584947678
-      Player_Walk_New_V2_12: 5987464217876601416
-      Player_Walk_New_V2_13: 5006989788778158610
-      Player_Walk_New_V2_14: 7144061901984080108
-      Player_Walk_New_V2_15: 8008200647984944713
-      Player_Walk_New_V2_2: -4650891527090083236
-      Player_Walk_New_V2_3: -3924831367877845732
-      Player_Walk_New_V2_4: 7381456118490946937
-      Player_Walk_New_V2_5: -4732621315382861202
-      Player_Walk_New_V2_6: -1302126513964043297
-      Player_Walk_New_V2_7: -5719678425274285583
-      Player_Walk_New_V2_8: -7801256308548636223
-      Player_Walk_New_V2_9: -3963133551069127937
-      frame_0: -1131739520
-      frame_1: -826602652
-      frame_10: 1209799128
-      frame_11: 1283704875
-      frame_12: 374704028
-      frame_13: -252463293
-      frame_14: 1458424412
-      frame_15: -943844877
-      frame_2: 1859873340
-      frame_3: -1821479491
-      frame_4: -232307543
-      frame_5: 1754812470
-      frame_6: 1541202011
-      frame_7: 452992966
-      frame_8: 549776936
-      frame_9: -2057993037
+      Enemy_Ghoul_V2_0: -4176925312100004509
+      Enemy_Ghoul_V2_1: -3192713966672038579
+      Enemy_Ghoul_V2_10: -3786933147427373961
+      Enemy_Ghoul_V2_11: -679082105574805527
+      Enemy_Ghoul_V2_12: 3154261753713660424
+      Enemy_Ghoul_V2_13: 4908678864957698935
+      Enemy_Ghoul_V2_14: -4036214947366222217
+      Enemy_Ghoul_V2_15: -8797745558246365716
+      Enemy_Ghoul_V2_2: -1779302004213171710
+      Enemy_Ghoul_V2_3: 5006108083807354320
+      Enemy_Ghoul_V2_4: 5380851703859785625
+      Enemy_Ghoul_V2_5: -38403781142886132
+      Enemy_Ghoul_V2_6: -8781062397259427036
+      Enemy_Ghoul_V2_7: 1262651372886152293
+      Enemy_Ghoul_V2_8: -3040402457756381821
+      Enemy_Ghoul_V2_9: 1868049419174434432
+      frame_0: 1867319545
+      frame_1: 114796314
+      frame_10: -1592048051
+      frame_11: 1100417382
+      frame_12: -1649613995
+      frame_13: 1566321215
+      frame_14: -8980530
+      frame_15: -1416873975
+      frame_2: -1564856316
+      frame_3: 460075142
+      frame_4: -174096559
+      frame_5: -1523503985
+      frame_6: -2100791297
+      frame_7: 492192579
+      frame_8: 1112016074
+      frame_9: 245194097
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
