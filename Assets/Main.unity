@@ -219,6 +219,9 @@ MonoBehaviour:
   barrierObject: {fileID: 225239325}
   maxHealth: 100
   invincibilityDuration: 0.5
+  currentLevel: 1
+  currentXP: 0
+  xpToNextLevel: 250
 --- !u!4 &5187009
 Transform:
   m_ObjectHideFlags: 0
@@ -1061,7 +1064,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
   enemyPrefab: {fileID: 4517806458224495422, guid: 97a630840e92d41858f1004c5a329471, type: 3}
   spawnRate: 2
-  spawnDistance: 8
+  spawnMargin: 1
+  minPlayerDistance: 5
 --- !u!4 &1448244763
 Transform:
   m_ObjectHideFlags: 0

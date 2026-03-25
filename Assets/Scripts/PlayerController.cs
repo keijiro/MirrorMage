@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     private float _currentHealth;
     private bool _isInvincible = false;
 
+    [Header("XP System")]
+    public int currentLevel = 1;
+    public float currentXP = 0f;
+    public float xpToNextLevel = 250f;
+
     private float _barrierTimer = 0f;
     private float _cooldownTimer = 0f;
     private bool _isBarrierActive = false;
@@ -149,6 +154,25 @@ public class PlayerController : MonoBehaviour
     }
 
     public float GetHealthProgress() => _currentHealth / maxHealth;
+    public float GetXPProgress() => currentXP / xpToNextLevel;
+
+    public void GainXP(float amount)
+    {
+        currentXP += amount;
+        while (currentXP >= xpToNextLevel)
+        {
+            LevelUp();
+        }
+    }
+
+    private void LevelUp()
+    {
+        currentXP -= xpToNextLevel;
+        currentLevel++;
+        xpToNextLevel *= 1.25f; // Increase next level requirement (25% more each time)
+        _currentHealth = maxHealth; // Reward: Full heal
+        Debug.Log($"Level Up! Now Level {currentLevel}");
+    }
 
     public void TakeDamage(float amount)
     {

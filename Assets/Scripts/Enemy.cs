@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     public float fireRate = 2f;
     public float spreadAngle = 45f;
     public int bulletCount = 3;
+    public float xpValue = 25f;
 
     public GameObject deathEffectPrefab;
 
@@ -77,6 +78,12 @@ public class Enemy : MonoBehaviour
 
         // Restore color before destruction (for the fire effect position reference)
         if (_spriteRenderer != null) _spriteRenderer.color = originalColor;
+
+        if (_player != null)
+        {
+            PlayerController pc = _player.GetComponent<PlayerController>();
+            if (pc != null) pc.GainXP(xpValue);
+        }
 
         // 3. Spawn the fire animation and finally destroy
         if (deathEffectPrefab != null)

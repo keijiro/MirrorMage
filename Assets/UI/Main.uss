@@ -3,7 +3,18 @@
     padding: 10px;
 }
 
-.health-bar-container {
+.hud-row {
+    margin-bottom: 6px;
+}
+
+.hud-label {
+    color: #ffffff;
+    font-size: 8px;
+    -unity-font-style: bold;
+    margin-bottom: 2px;
+}
+
+.bar-container {
     width: 100px;
     height: 6px;
     background-color: rgba(0, 0, 0, 0.7);
@@ -12,6 +23,53 @@
 }
 
 .health-bar-fill {
-    flex-grow: 1;
+    height: 100%;
     background-color: #ff4d4d;
+}
+
+.xp-bar-fill {
+    height: 100%;
+    background-color: #4da6ff;
+}
+
+.xp-bar-container {
+    width: 100px;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-width: 1px;
+    border-color: #ffffff;
+    margin-top: 4px;
+}
+
+.xp-bar-fill {
+    flex-grow: 1;
+    background-color: #4da6ff;
+}
+
+.xp-bar-container {
+    width: 100px;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-width: 1px;
+    border-color: #ffffff;
+    margin-top: 4px;
+}
+
+.xp-bar-fill {
+    flex-grow: 1;
+    background-color: #4da6ff;
+}
+
+.xp-bar-container {
+    width: 100px;
+    height: 3px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-width: 1px;
+    border-color: #ffffff;
+    margin-top: 4px;
+}
+
+.xp-bar-fill {
+    flex-grow: 1;
+    background-color: #4da6ff;
 }

@@ -1,8 +1,20 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Style src="project://database/Assets/UI/Main.uss" />
     <ui:VisualElement name="hudRoot" class="hud-root">
-        <ui:VisualElement name="healthBarContainer" class="health-bar-container">
-            <ui:VisualElement name="healthBarFill" class="health-bar-fill" />
+        <ui:VisualElement class="hud-row">
+            <ui:Label text="LIFE" class="hud-label" />
+            <ui:VisualElement name="healthBarContainer" class="bar-container">
+                <ui:VisualElement name="healthBarFill" class="health-bar-fill" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement class="hud-row">
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100px;">
+                <ui:Label text="XP" class="hud-label" />
+                <ui:Label name="levelText" text="Lv. 1" class="hud-label" />
+            </ui:VisualElement>
+            <ui:VisualElement name="xpBarContainer" class="bar-container">
+                <ui:VisualElement name="xpBarFill" class="xp-bar-fill" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
