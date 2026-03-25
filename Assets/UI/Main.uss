@@ -1,6 +1,7 @@
 .hud-root {
     flex-grow: 1;
     padding: 10px;
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
 }
 
 .hud-row {
@@ -9,8 +10,7 @@
 
 .hud-label {
     color: #ffffff;
-    font-size: 8px;
-    -unity-font-style: bold;
+    font-size: 18px;
     margin-bottom: 2px;
 }
 

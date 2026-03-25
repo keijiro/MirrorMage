@@ -1,0 +1,23 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Style src="project://database/Assets/UI/LevelUpUI.uss" />
+    <ui:VisualElement name="overlay" class="level-up-overlay">
+        <ui:Label text="LEVEL UP!" class="level-up-title" />
+        <ui:VisualElement class="options-row">
+            <ui:Button name="btnMoveSpeed" class="option-card">
+                <ui:Label text="Movement Speed" class="option-title" />
+                <ui:Label text="Increase player movement speed by 15%." class="option-description" />
+                <ui:Label text="SELECT" class="option-button" />
+            </ui:Button>
+            <ui:Button name="btnChargeSpeed" class="option-card">
+                <ui:Label text="Charge Speed" class="option-title" />
+                <ui:Label text="Reduce barrier cooldown time by 15%." class="option-description" />
+                <ui:Label text="SELECT" class="option-button" />
+            </ui:Button>
+            <ui:Button name="btnBarrierStrength" class="option-card">
+                <ui:Label text="Barrier Strength" class="option-title" />
+                <ui:Label text="Increase barrier duration by 20% and size by 15%." class="option-description" />
+                <ui:Label text="SELECT" class="option-button" />
+            </ui:Button>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     public int currentLevel = 1;
     public float currentXP = 0f;
     public float xpToNextLevel = 250f;
+    public LevelUpUI levelUpUI;
 
     private float _barrierTimer = 0f;
     private float _cooldownTimer = 0f;
@@ -172,6 +173,11 @@ public class PlayerController : MonoBehaviour
         xpToNextLevel *= 1.25f; // Increase next level requirement (25% more each time)
         _currentHealth = maxHealth; // Reward: Full heal
         Debug.Log($"Level Up! Now Level {currentLevel}");
+
+        if (levelUpUI != null)
+        {
+            levelUpUI.Show(this);
+        }
     }
 
     public void TakeDamage(float amount)
