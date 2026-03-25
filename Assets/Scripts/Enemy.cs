@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour
     public GameObject deathEffectPrefab;
 
     private Transform _player;
-    private float _fireTimer;
     private SpriteRenderer _spriteRenderer;
     private Animator _animator;
     private bool _isDying = false;
@@ -25,13 +24,65 @@ public class Enemy : MonoBehaviour
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) _player = playerObj.transform;
-        _fireTimer = fireRate;
+        
+        StartCoroutine(BehaviorRoutine());
     }
 
     public void Die()
     {
         if (_isDying) return;
+        StopAllCoroutines();
         StartCoroutine(DeathRoutine());
+    }
+
+    private IEnumerator BehaviorRoutine()
+    {
+        while (!_isDying)
+        {
+            if (_player == null)
+            {
+                yield return new WaitForSeconds(0.5f);
+                continue;
+            }
+
+            // Store player direction in a vector
+            Vector2 moveDirection = (_player.position - transform.position).normalized;
+
+            // Update sprite flipping based on movement direction
+            if (moveDirection.x > 0.05f) _spriteRenderer.flipX = true;
+            else if (moveDirection.x < -0.05f) _spriteRenderer.flipX = false;
+
+            // Randomized firing interval (+/- 20% variance)
+            float interval = Random.Range(fireRate * 0.8f, fireRate * 1.2f);
+            float moveTime = Mathf.Max(0, interval - 0.6f);
+
+            // Move in the stored direction until firing phase starts
+            float elapsed = 0f;
+            while (elapsed < moveTime && !_isDying)
+            {
+                transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (_isDying) yield break;
+
+            // Update sprite orientation to face the player before shooting
+            Vector2 aimDirection = (_player.position - transform.position).normalized;
+            if (aimDirection.x > 0.05f) _spriteRenderer.flipX = true;
+            else if (aimDirection.x < -0.05f) _spriteRenderer.flipX = false;
+
+            // Stop and wait 0.3s
+            yield return new WaitForSeconds(0.3f);
+
+            if (_isDying) yield break;
+
+            // Shoot
+            Shoot();
+
+            // Wait another 0.3s
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 
     private IEnumerator DeathRoutine()
@@ -95,24 +146,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (_isDying) return;
-
-        if (_player != null)
-        {
-            Vector2 direction = (_player.position - transform.position).normalized;
-            transform.Translate(direction * moveSpeed * Time.deltaTime);
-
-            // Sprite flipping logic based on movement direction
-            if (direction.x > 0.05f) _spriteRenderer.flipX = true; // Faces right
-            else if (direction.x < -0.05f) _spriteRenderer.flipX = false; // Faces left (Southwest)
-
-            _fireTimer -= Time.deltaTime;
-            if (_fireTimer <= 0)
-            {
-                Shoot();
-                _fireTimer = fireRate;
-            }
-        }
+        // Movement and firing logic moved to BehaviorRoutine coroutine
     }
 
     void Shoot()
