@@ -221,7 +221,7 @@ MonoBehaviour:
   invincibilityDuration: 0.5
   currentLevel: 1
   currentXP: 0
-  xpToNextLevel: 15
+  xpToNextLevel: 250
   levelUpUI: {fileID: 654577710}
 --- !u!4 &5187009
 Transform:

@@ -70,6 +70,25 @@
     scale: 1.05;
 }
 
+.option-icon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 8px;
+    -unity-background-scale-mode: scale-to-fit;
+}
+
+#moveSpeedIcon {
+    background-image: url("project://database/Assets/UI/Icons/Icon_MoveSpeed.png");
+}
+
+#chargeSpeedIcon {
+    background-image: url("project://database/Assets/UI/Icons/Icon_ChargeSpeed.png");
+}
+
+#barrierStrengthIcon {
+    background-image: url("project://database/Assets/UI/Icons/Icon_BarrierStrength.png");
+}
+
 .option-title {
     color: #ffffff;
     font-size: 20px;
