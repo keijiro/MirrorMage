@@ -8,7 +8,7 @@
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement class="hud-row">
-            <ui:VisualElement style="flex-direction: row; justify-content: space-between; width: 100px;">
+            <ui:VisualElement class="xp-header">
                 <ui:Label text="XP" class="hud-label" />
                 <ui:Label name="levelText" text="Lv. 1" class="hud-label" />
             </ui:VisualElement>

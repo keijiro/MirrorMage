@@ -1,22 +1,22 @@
 .hud-root {
     flex-grow: 1;
-    padding: 10px;
+    padding: 15px;
     -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
 }
 
 .hud-row {
-    margin-bottom: 6px;
+    margin-bottom: 9px;
 }
 
 .hud-label {
     color: #ffffff;
-    font-size: 18px;
-    margin-bottom: 2px;
+    font-size: 27px;
+    margin-bottom: 3px;
 }
 
 .bar-container {
-    width: 100px;
-    height: 6px;
+    width: 150px;
+    height: 9px;
     background-color: rgba(0, 0, 0, 0.7);
     border-width: 1px;
     border-color: #ffffff;
@@ -32,44 +32,8 @@
     background-color: #4da6ff;
 }
 
-.xp-bar-container {
-    width: 100px;
-    height: 3px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-width: 1px;
-    border-color: #ffffff;
-    margin-top: 4px;
-}
-
-.xp-bar-fill {
-    flex-grow: 1;
-    background-color: #4da6ff;
-}
-
-.xp-bar-container {
-    width: 100px;
-    height: 3px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-width: 1px;
-    border-color: #ffffff;
-    margin-top: 4px;
-}
-
-.xp-bar-fill {
-    flex-grow: 1;
-    background-color: #4da6ff;
-}
-
-.xp-bar-container {
-    width: 100px;
-    height: 3px;
-    background-color: rgba(0, 0, 0, 0.7);
-    border-width: 1px;
-    border-color: #ffffff;
-    margin-top: 4px;
-}
-
-.xp-bar-fill {
-    flex-grow: 1;
-    background-color: #4da6ff;
+.xp-header {
+    flex-direction: row;
+    justify-content: space-between;
+    width: 150px;
 }

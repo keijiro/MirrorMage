@@ -9,11 +9,11 @@
 
 .level-up-title {
     color: #ffffff;
-    font-size: 48px;
-    margin-bottom: 30px;
+    font-size: 72px;
+    margin-bottom: 45px;
     -unity-text-align: middle-center;
-    letter-spacing: 2px;
-    -unity-text-outline-width: 1px;
+    letter-spacing: 3px;
+    -unity-text-outline-width: 1.5px;
     -unity-text-outline-color: #000000;
 }
 
@@ -24,23 +24,23 @@
 }
 
 .option-card {
-    width: 150px;
-    min-height: 220px;
+    width: 250px;
+    min-height: 330px;
     background-color: #2c3e50;
     border-width: 0;
-    padding: 16px;
+    padding: 24px;
     align-items: center;
     justify-content: space-between;
-    margin: 0 10px;
-    border-radius: 12px;
+    margin: 0 15px;
+    border-radius: 18px;
     
-    border-bottom-width: 4px;
-    border-right-width: 4px;
+    border-bottom-width: 6px;
+    border-right-width: 6px;
     border-bottom-color: #1a252f;
     border-right-color: #1a252f;
 
-    /* Transition for entry and selection effects */
-    transition-property: translate, scale, opacity, background-color;
+    /* Transition for entry and selection effects. Added color and tint for smooth fade back. */
+    transition-property: translate, scale, opacity, background-color, color, -unity-background-image-tint-color;
     transition-duration: 0.4s;
     transition-timing-function: ease-out-back;
 }
@@ -51,11 +51,13 @@
     opacity: 0;
 }
 
-/* Selected state: Bright and slightly larger */
+/* Selected state: Set to 1.1x as requested. */
 .option-card--selected {
-    background-color: #ffffff;
-    scale: 1.15;
-    transition-duration: 0.2s;
+    background-color: #3498db;
+    scale: 1.1;
+    transition-duration: 0.3s;
+    border-width: 4px;
+    border-color: #ffffff;
 }
 
 /* Dimmed state for non-selected buttons */
@@ -70,64 +72,69 @@
     scale: 1.05;
 }
 
+/* Flash state: 1.15x for a small pop, overrides hover/selected. */
+.option-card.option-card--flash {
+    background-color: #ffffff;
+    transition-duration: 0s;
+    scale: 1.15;
+    border-width: 0;
+}
+
+/* Silhouette children during flash */
+.option-card.option-card--flash .option-title,
+.option-card.option-card--flash .option-description,
+.option-card.option-card--flash .option-button,
+.option-card.option-card--flash .option-icon {
+    opacity: 1;
+    color: #000000;
+    -unity-background-image-tint-color: #000000;
+    transition-duration: 0s;
+}
+
 .option-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 8px;
+    width: 120px;
+    height: 120px;
+    margin-bottom: 12px;
     -unity-background-scale-mode: scale-to-fit;
 }
 
 #moveSpeedIcon {
-    background-image: url("project://database/Assets/UI/Icons/Icon_MoveSpeed.png");
+    background-image: url("project://database/Assets/UI/Icons/Icon_MoveSpeed.png?fileID=21300000&guid=4a04fcc21ed36408eba1dfef55547dfe&type=3");
 }
 
 #chargeSpeedIcon {
-    background-image: url("project://database/Assets/UI/Icons/Icon_ChargeSpeed.png");
+    background-image: url("project://database/Assets/UI/Icons/Icon_ChargeSpeed.png?fileID=21300000&guid=712440d84eb8a468891a7be76648d8f8&type=3");
 }
 
 #barrierStrengthIcon {
-    background-image: url("project://database/Assets/UI/Icons/Icon_BarrierStrength.png");
+    background-image: url("project://database/Assets/UI/Icons/Icon_BarrierStrength.png?fileID=21300000&guid=03a91e6ca9c8b41c395a0628470786c9&type=3");
 }
 
 .option-title {
     color: #ffffff;
-    font-size: 20px;
+    font-size: 30px;
     -unity-text-align: middle-center;
-    white-space: normal;
-    margin-bottom: 8px;
-}
-
-/* White text for selected card title */
-.option-card--selected .option-title {
-    color: #2c3e50;
+    white-space: nowrap;
+    margin-bottom: 12px;
 }
 
 .option-description {
     color: #bdc3c7;
-    font-size: 14px;
+    font-size: 21px;
     -unity-text-align: middle-center;
     white-space: normal;
     flex-grow: 1;
     justify-content: center;
-    margin: 8px 0;
-}
-
-.option-card--selected .option-description {
-    color: #34495e;
+    margin: 12px 0;
 }
 
 .option-button {
     background-color: #ecf0f1;
     color: #2c3e50;
-    border-radius: 6px;
-    font-size: 14px;
-    padding: 6px;
+    border-radius: 9px;
+    font-size: 21px;
+    padding: 9px;
     width: 100%;
     -unity-text-align: middle-center;
     border-width: 0;
-}
-
-.option-card--selected .option-button {
-    background-color: #2c3e50;
-    color: #ffffff;
 }

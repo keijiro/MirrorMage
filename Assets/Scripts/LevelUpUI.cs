@@ -14,6 +14,7 @@ public class LevelUpUI : MonoBehaviour
 
     private const string HIDDEN_CLASS = "option-card--hidden";
     private const string SELECTED_CLASS = "option-card--selected";
+    private const string FLASH_CLASS = "option-card--flash";
     private const string DIMMED_CLASS = "option-card--dimmed";
 
     private void Awake()
@@ -54,6 +55,7 @@ public class LevelUpUI : MonoBehaviour
         {
             btn.AddToClassList(HIDDEN_CLASS);
             btn.RemoveFromClassList(SELECTED_CLASS);
+            btn.RemoveFromClassList(FLASH_CLASS);
             btn.RemoveFromClassList(DIMMED_CLASS);
         }
 
@@ -82,7 +84,10 @@ public class LevelUpUI : MonoBehaviour
 
     private IEnumerator HandleSelection(Button selectedBtn, System.Action applyUpgrade)
     {
-        // Apply visual states
+        // 1. Instant Flash and Scale Pop
+        selectedBtn.AddToClassList(FLASH_CLASS);
+        
+        // 2. Set final selected state immediately underneath the flash
         foreach (var btn in _optionButtons)
         {
             if (btn == selectedBtn)
@@ -95,8 +100,14 @@ public class LevelUpUI : MonoBehaviour
             }
         }
 
-        // Wait for animation to finish (using realtime because timescale is 0)
-        yield return new WaitForSecondsRealtime(0.4f);
+        // Extremely short flash duration (approx 1/30s)
+        yield return new WaitForSecondsRealtime(0.033f);
+        
+        // 3. Remove flash to let the final state (Blue) fade in/show through
+        selectedBtn.RemoveFromClassList(FLASH_CLASS);
+
+        // Wait 0.5s for the user to see the result and for animations to settle before resuming
+        yield return new WaitForSecondsRealtime(0.5f);
 
         applyUpgrade?.Invoke();
         Hide();
