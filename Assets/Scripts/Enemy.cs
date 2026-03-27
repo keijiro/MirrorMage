@@ -3,13 +3,21 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
+    [Header("Movement Settings")]
     public float moveSpeed = 2f;
-    public GameObject projectilePrefab;
-    public float fireRate = 2f;
-    public float spreadAngle = 45f;
-    public int bulletCount = 3;
-    public float xpValue = 25f;
+    public float moveDistance = 3f;
+    public float keepDistance = 0f;
 
+    [Header("Combat Settings")]
+    public GameObject projectilePrefab;
+    public int bulletCount = 3;
+    public float spreadAngle = 45f;
+    public int shootRepeatCount = 1;
+    public float preShootWait = 0.3f;
+    public float postShootWait = 0.3f;
+
+    [Header("Visuals & Rewards")]
+    public float xpValue = 25f;
     public GameObject deathEffectPrefab;
 
     private Transform _player;
@@ -45,43 +53,59 @@ public class Enemy : MonoBehaviour
                 continue;
             }
 
-            // Store player direction in a vector
-            Vector2 moveDirection = (_player.position - transform.position).normalized;
+            // Determine movement direction based on "keepDistance"
+            float distToPlayer = Vector2.Distance(transform.position, _player.position);
+            Vector2 moveDirection = Vector2.zero;
+
+            if (distToPlayer > keepDistance + 0.2f)
+            {
+                moveDirection = (_player.position - transform.position).normalized;
+            }
+            else if (distToPlayer < keepDistance - 0.2f)
+            {
+                moveDirection = (transform.position - _player.position).normalized;
+            }
 
             // Update sprite flipping based on movement direction
             if (moveDirection.x > 0.05f) _spriteRenderer.flipX = true;
             else if (moveDirection.x < -0.05f) _spriteRenderer.flipX = false;
 
-            // Randomized firing interval (+/- 20% variance)
-            float interval = Random.Range(fireRate * 0.8f, fireRate * 1.2f);
-            float moveTime = Mathf.Max(0, interval - 0.6f);
+            // Randomized move distance (+/- 20% variance)
+            float targetMoveDistance = Random.Range(moveDistance * 0.8f, moveDistance * 1.2f);
 
-            // Move in the stored direction until firing phase starts
-            float elapsed = 0f;
-            while (elapsed < moveTime && !_isDying)
+            // Move phase
+            float distanceTraveled = 0f;
+            while (distanceTraveled < targetMoveDistance && !_isDying && moveDirection != Vector2.zero)
             {
-                transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
-                elapsed += Time.deltaTime;
+                Vector3 moveDelta = (Vector3)moveDirection * moveSpeed * Time.deltaTime;
+                transform.Translate(moveDelta);
+                distanceTraveled += moveDelta.magnitude;
                 yield return null;
             }
 
             if (_isDying) yield break;
 
-            // Update sprite orientation to face the player before shooting
-            Vector2 aimDirection = (_player.position - transform.position).normalized;
-            if (aimDirection.x > 0.05f) _spriteRenderer.flipX = true;
-            else if (aimDirection.x < -0.05f) _spriteRenderer.flipX = false;
+            // Shooting phase (repeated)
+            for (int i = 0; i < shootRepeatCount; i++)
+            {
+                if (_isDying) yield break;
 
-            // Stop and wait 0.3s
-            yield return new WaitForSeconds(0.3f);
+                // Update sprite orientation to face the player before shooting
+                Vector2 aimDirection = (_player.position - transform.position).normalized;
+                if (aimDirection.x > 0.05f) _spriteRenderer.flipX = true;
+                else if (aimDirection.x < -0.05f) _spriteRenderer.flipX = false;
 
-            if (_isDying) yield break;
+                // Stop and wait (Pre-shoot)
+                yield return new WaitForSeconds(preShootWait);
 
-            // Shoot
-            Shoot();
+                if (_isDying) yield break;
 
-            // Wait another 0.3s
-            yield return new WaitForSeconds(0.3f);
+                // Shoot
+                Shoot();
+
+                // Wait (Post-shoot / Interval)
+                yield return new WaitForSeconds(postShootWait);
+            }
         }
     }
 
@@ -154,20 +178,33 @@ public class Enemy : MonoBehaviour
         if (projectilePrefab == null || _player == null) return;
 
         Vector2 baseDir = (_player.position - transform.position).normalized;
-        float startAngle = -spreadAngle / 2f;
-        float angleStep = spreadAngle / (bulletCount - 1);
 
-        for (int i = 0; i < bulletCount; i++)
+        if (bulletCount <= 1)
         {
-            float angle = startAngle + (angleStep * i);
-            Vector2 dir = Quaternion.Euler(0, 0, angle) * baseDir;
-            
-            GameObject bullet = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-            Projectile p = bullet.GetComponent<Projectile>();
-            if (p != null)
+            // Just shoot one directly at the player
+            SpawnProjectile(baseDir);
+        }
+        else
+        {
+            float startAngle = -spreadAngle / 2f;
+            float angleStep = spreadAngle / (bulletCount - 1);
+
+            for (int i = 0; i < bulletCount; i++)
             {
-                p.direction = dir;
+                float angle = startAngle + (angleStep * i);
+                Vector2 dir = Quaternion.Euler(0, 0, angle) * baseDir;
+                SpawnProjectile(dir);
             }
+        }
+    }
+
+    private void SpawnProjectile(Vector2 dir)
+    {
+        GameObject bullet = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+        Projectile p = bullet.GetComponent<Projectile>();
+        if (p != null)
+        {
+            p.direction = dir;
         }
     }
 }
