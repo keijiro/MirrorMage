@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemyPrefab;
+    [Tooltip("List of enemy prefabs to spawn randomly")]
+    public GameObject[] enemyPrefabs;
+    
     public float spawnRate = 3f;
     [Tooltip("Distance outside the screen where enemies will spawn")]
     public float spawnMargin = 1f;
@@ -35,7 +37,11 @@ public class EnemySpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if (enemyPrefab == null || _cam == null) return;
+        if (enemyPrefabs == null || enemyPrefabs.Length == 0 || _cam == null) return;
+
+        // Pick a random prefab from the list
+        GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+        if (selectedPrefab == null) return;
 
         Vector3 spawnPos = GetRandomSpawnPosition();
 
@@ -50,7 +56,7 @@ public class EnemySpawner : MonoBehaviour
             }
         }
 
-        Instantiate(enemyPrefab, spawnPos, Quaternion.identity);
+        Instantiate(selectedPrefab, spawnPos, Quaternion.identity);
     }
 
     private Vector3 GetRandomSpawnPosition()

@@ -1,57 +1,57 @@
 fileFormatVersion: 2
-guid: fd4ba10f12b6e464383be5b8b9fe0f77
+guid: 99fe45eeac37e4d57823e9010628d530
 labels:
 - UnityAI
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -319509429510461966
-    second: Skeleton_Walk_0
+      213: 7013631516640934163
+    second: Bat_Fly_0
   - first:
-      213: -5704084491819767634
-    second: Skeleton_Walk_1
+      213: 2129977301182375049
+    second: Bat_Fly_1
   - first:
-      213: 8477824621842717129
-    second: Skeleton_Walk_2
+      213: 4629786828116271281
+    second: Bat_Fly_2
   - first:
-      213: 3051669912371892857
-    second: Skeleton_Walk_3
+      213: 3316824086482507018
+    second: Bat_Fly_3
   - first:
-      213: 7539542233003775106
-    second: Skeleton_Walk_4
+      213: -2755862892826624061
+    second: Bat_Fly_4
   - first:
-      213: 2788143195985776107
-    second: Skeleton_Walk_5
+      213: 8982764187832678760
+    second: Bat_Fly_5
   - first:
-      213: -119383558338234881
-    second: Skeleton_Walk_6
+      213: 8740110379475206186
+    second: Bat_Fly_6
   - first:
-      213: 1567333206898370016
-    second: Skeleton_Walk_7
+      213: -6623887161682162726
+    second: Bat_Fly_7
   - first:
-      213: -5230364189807224312
-    second: Skeleton_Walk_8
+      213: -8691309025868777297
+    second: Bat_Fly_8
   - first:
-      213: -7604424623187386792
-    second: Skeleton_Walk_9
+      213: -5834127530736493456
+    second: Bat_Fly_9
   - first:
-      213: -4605814848101980731
-    second: Skeleton_Walk_10
+      213: -2029569348718055912
+    second: Bat_Fly_10
   - first:
-      213: 3054016435070849357
-    second: Skeleton_Walk_11
+      213: -1122526608879711741
+    second: Bat_Fly_11
   - first:
-      213: 8692563756825760236
-    second: Skeleton_Walk_12
+      213: -7705477711360405545
+    second: Bat_Fly_12
   - first:
-      213: -9037573260236932452
-    second: Skeleton_Walk_13
+      213: -7715904583901897184
+    second: Bat_Fly_13
   - first:
-      213: -7575817433160994043
-    second: Skeleton_Walk_14
+      213: -5758928174649884427
+    second: Bat_Fly_14
   - first:
-      213: -2912437625697117803
-    second: Skeleton_Walk_15
+      213: 4149497884490529574
+    second: Bat_Fly_15
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -98,7 +98,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 256
+  spritePixelsToUnits: 171
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -143,24 +143,11 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: Android
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Skeleton_Walk_0
+      name: Bat_Fly_0
       rect:
         serializedVersion: 2
         x: 0
@@ -168,21 +155,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2f524afdddfd09bf0800000000000000
-      internalID: -319509429510461966
+      spriteID: 319fdde54bc655160800000000000000
+      internalID: 7013631516640934163
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_1
+      name: Bat_Fly_1
       rect:
         serializedVersion: 2
         x: 256
@@ -190,21 +177,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ea8a440506507d0b0800000000000000
-      internalID: -5704084491819767634
+      spriteID: 984ee9002133f8d10800000000000000
+      internalID: 2129977301182375049
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_2
+      name: Bat_Fly_2
       rect:
         serializedVersion: 2
         x: 512
@@ -212,21 +199,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9c9defc739847a570800000000000000
-      internalID: 8477824621842717129
+      spriteID: 1b027ab279e404040800000000000000
+      internalID: 4629786828116271281
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_3
+      name: Bat_Fly_3
       rect:
         serializedVersion: 2
         x: 768
@@ -234,21 +221,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 9729caaed95b95a20800000000000000
-      internalID: 3051669912371892857
+      spriteID: a05df31fee9b70e20800000000000000
+      internalID: 3316824086482507018
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_4
+      name: Bat_Fly_4
       rect:
         serializedVersion: 2
         x: 0
@@ -256,21 +243,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 284de37f6b5d1a860800000000000000
-      internalID: 7539542233003775106
+      spriteID: 3cf7367dc4531c9d0800000000000000
+      internalID: -2755862892826624061
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_5
+      name: Bat_Fly_5
       rect:
         serializedVersion: 2
         x: 256
@@ -278,21 +265,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: bed87abe67971b620800000000000000
-      internalID: 2788143195985776107
+      spriteID: 869fdd4af6039ac70800000000000000
+      internalID: 8982764187832678760
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_6
+      name: Bat_Fly_6
       rect:
         serializedVersion: 2
         x: 512
@@ -300,21 +287,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ff53a35494dd75ef0800000000000000
-      internalID: -119383558338234881
+      spriteID: a200352451c1b4970800000000000000
+      internalID: 8740110379475206186
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_7
+      name: Bat_Fly_7
       rect:
         serializedVersion: 2
         x: 768
@@ -322,21 +309,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e5e9d16f3940c510800000000000000
-      internalID: 1567333206898370016
+      spriteID: adb0aa7a8b93314a0800000000000000
+      internalID: -6623887161682162726
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_8
+      name: Bat_Fly_8
       rect:
         serializedVersion: 2
         x: 0
@@ -344,21 +331,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 80add942b730a67b0800000000000000
-      internalID: -5230364189807224312
+      spriteID: fa8f1ff4d74426780800000000000000
+      internalID: -8691309025868777297
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_9
+      name: Bat_Fly_9
       rect:
         serializedVersion: 2
         x: 256
@@ -366,21 +353,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 85e9ead5818a77690800000000000000
-      internalID: -7604424623187386792
+      spriteID: 07cdf1cdbe3090fa0800000000000000
+      internalID: -5834127530736493456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_10
+      name: Bat_Fly_10
       rect:
         serializedVersion: 2
         x: 512
@@ -388,21 +375,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5c569ad5ccbd410c0800000000000000
-      internalID: -4605814848101980731
+      spriteID: 81ea3a23e6585d3e0800000000000000
+      internalID: -2029569348718055912
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_11
+      name: Bat_Fly_11
       rect:
         serializedVersion: 2
         x: 768
@@ -410,21 +397,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d415a9e44cb026a20800000000000000
-      internalID: 3054016435070849357
+      spriteID: 30a0dc22ffbfb60f0800000000000000
+      internalID: -1122526608879711741
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_12
+      name: Bat_Fly_12
       rect:
         serializedVersion: 2
         x: 0
@@ -432,21 +419,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: ce1d8018ea032a870800000000000000
-      internalID: 8692563756825760236
+      spriteID: 7df4cadc8d4a01590800000000000000
+      internalID: -7705477711360405545
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_13
+      name: Bat_Fly_13
       rect:
         serializedVersion: 2
         x: 256
@@ -454,21 +441,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c9a3200c007149280800000000000000
-      internalID: -9037573260236932452
+      spriteID: 02e18bb59a99be490800000000000000
+      internalID: -7715904583901897184
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_14
+      name: Bat_Fly_14
       rect:
         serializedVersion: 2
         x: 512
@@ -476,21 +463,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5033a35de2a4dd690800000000000000
-      internalID: -7575817433160994043
+      spriteID: 5f04107565d2410b0800000000000000
+      internalID: -5758928174649884427
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Skeleton_Walk_15
+      name: Bat_Fly_15
       rect:
         serializedVersion: 2
         x: 768
@@ -498,15 +485,15 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 59957d10961f497d0800000000000000
-      internalID: -2912437625697117803
+      spriteID: 62bfa49475af59930800000000000000
+      internalID: 4149497884490529574
       vertices: []
       indices: 
       edges: []
@@ -525,38 +512,38 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Skeleton_Walk_0: -319509429510461966
-      Skeleton_Walk_1: -5704084491819767634
-      Skeleton_Walk_10: -4605814848101980731
-      Skeleton_Walk_11: 3054016435070849357
-      Skeleton_Walk_12: 8692563756825760236
-      Skeleton_Walk_13: -9037573260236932452
-      Skeleton_Walk_14: -7575817433160994043
-      Skeleton_Walk_15: -2912437625697117803
-      Skeleton_Walk_2: 8477824621842717129
-      Skeleton_Walk_3: 3051669912371892857
-      Skeleton_Walk_4: 7539542233003775106
-      Skeleton_Walk_5: 2788143195985776107
-      Skeleton_Walk_6: -119383558338234881
-      Skeleton_Walk_7: 1567333206898370016
-      Skeleton_Walk_8: -5230364189807224312
-      Skeleton_Walk_9: -7604424623187386792
-      frame_0: -1932509549
-      frame_1: 1634728247
-      frame_10: -433791207
-      frame_11: -1508163889
-      frame_12: 796163553
-      frame_13: -1413869194
-      frame_14: 82316730
-      frame_15: -344179579
-      frame_2: -819619946
-      frame_3: 1785725076
-      frame_4: -259533421
-      frame_5: 973230685
-      frame_6: -1209056489
-      frame_7: 1154584890
-      frame_8: -523243057
-      frame_9: 527733145
+      Bat_Fly_0: 7013631516640934163
+      Bat_Fly_1: 2129977301182375049
+      Bat_Fly_10: -2029569348718055912
+      Bat_Fly_11: -1122526608879711741
+      Bat_Fly_12: -7705477711360405545
+      Bat_Fly_13: -7715904583901897184
+      Bat_Fly_14: -5758928174649884427
+      Bat_Fly_15: 4149497884490529574
+      Bat_Fly_2: 4629786828116271281
+      Bat_Fly_3: 3316824086482507018
+      Bat_Fly_4: -2755862892826624061
+      Bat_Fly_5: 8982764187832678760
+      Bat_Fly_6: 8740110379475206186
+      Bat_Fly_7: -6623887161682162726
+      Bat_Fly_8: -8691309025868777297
+      Bat_Fly_9: -5834127530736493456
+      frame_0: 1189956932
+      frame_1: -827394328
+      frame_10: 104786694
+      frame_11: -57321848
+      frame_12: -516743755
+      frame_13: -259625052
+      frame_14: -465092059
+      frame_15: 1095824038
+      frame_2: 1533610140
+      frame_3: -1159963944
+      frame_4: -1970695457
+      frame_5: 1104652663
+      frame_6: -829884318
+      frame_7: -1075488833
+      frame_8: 1291746203
+      frame_9: 1145951175
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

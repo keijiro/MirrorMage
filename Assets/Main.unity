@@ -1131,7 +1131,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ccad4a39a62b480591965d3bd08843b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  enemyPrefab: {fileID: 4517806458224495422, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+  enemyPrefabs:
+  - {fileID: 4517806458224495422, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+  - {fileID: 4810493619555845211, guid: b61eb37cd40e845fea33edeb1e647b54, type: 3}
   spawnRate: 2
   spawnMargin: 1
   minPlayerDistance: 5
