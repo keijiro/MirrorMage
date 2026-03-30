@@ -213,9 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d6fb95bad42a46bc9af2b56e271f089, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  moveSpeed: 2
-  barrierDuration: 0.7
-  barrierCooldown: 1
+  moveSpeed: 1.5
+  barrierDuration: 0.5
+  barrierCooldown: 2
   barrierObject: {fileID: 225239325}
   maxHealth: 100
   invincibilityDuration: 0.5
@@ -315,7 +315,7 @@ MonoBehaviour:
   pulseMinAlpha: 0.6
   pulseMaxAlpha: 1
   expansionDuration: 0.35
-  expansionScaleTarget: 2.2
+  expansionScaleTarget: 1.5
 --- !u!212 &225239328
 SpriteRenderer:
   serializedVersion: 2
@@ -385,8 +385,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 881144217}
   m_Father: {fileID: 5187009}
