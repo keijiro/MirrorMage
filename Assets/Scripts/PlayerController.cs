@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [Header("XP System")]
     public int currentLevel = 1;
     public float currentXP = 0f;
+    public float totalXP = 0f;
     public float xpToNextLevel = 250f;
     public LevelUpUI levelUpUI;
 
@@ -160,6 +161,7 @@ public class PlayerController : MonoBehaviour
     public void GainXP(float amount)
     {
         currentXP += amount;
+        totalXP += amount;
         while (currentXP >= xpToNextLevel)
         {
             LevelUp();

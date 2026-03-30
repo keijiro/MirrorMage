@@ -2,10 +2,19 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    [Header("Pool Settings")]
     [Tooltip("List of enemy prefabs to spawn randomly")]
     public GameObject[] enemyPrefabs;
     
-    public float spawnRate = 3f;
+    [Header("Spawn Frequency")]
+    public float baseSpawnsPerMinute = 20f;
+    public float spawnsIncreasePerXP = 0.05f;
+
+    [Header("Enemy Limit")]
+    public int baseMaxEnemies = 10;
+    public float maxEnemiesIncreasePerXP = 0.02f;
+
+    [Header("Placement")]
     [Tooltip("Distance outside the screen where enemies will spawn")]
     public float spawnMargin = 1f;
     [Tooltip("Minimum distance from the player to spawn an enemy")]
@@ -13,25 +22,44 @@ public class EnemySpawner : MonoBehaviour
 
     private float _spawnTimer;
     private Camera _cam;
-    private Transform _playerTransform;
+    private PlayerController _player;
 
     void Start()
     {
         _cam = Camera.main;
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
         {
-            _playerTransform = player.transform;
+            _player = playerObj.GetComponent<PlayerController>();
         }
+        
+        // Initialize timer for first spawn
+        _spawnTimer = 0f;
     }
 
     void Update()
     {
+        if (_player == null) return;
+
         _spawnTimer -= Time.deltaTime;
+        
         if (_spawnTimer <= 0)
         {
-            SpawnEnemy();
-            _spawnTimer = spawnRate;
+            // Calculate current limits based on XP
+            float xp = _player.totalXP;
+            float currentSpawnsPerMin = baseSpawnsPerMinute + (xp * spawnsIncreasePerXP);
+            int currentMaxEnemies = Mathf.FloorToInt(baseMaxEnemies + (xp * maxEnemiesIncreasePerXP));
+
+            // Count current enemies
+            int activeEnemies = Object.FindObjectsByType<Enemy>(FindObjectsSortMode.None).Length;
+
+            if (activeEnemies < currentMaxEnemies)
+            {
+                SpawnEnemy();
+            }
+
+            // Calculate next spawn interval (60s / count per minute)
+            _spawnTimer = 60f / Mathf.Max(1f, currentSpawnsPerMin);
         }
     }
 
@@ -46,10 +74,10 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPos = GetRandomSpawnPosition();
 
         // Ensure we don't spawn too close to the player
-        if (_playerTransform != null)
+        if (_player != null)
         {
             int maxRetries = 10;
-            while (Vector2.Distance(spawnPos, _playerTransform.position) < minPlayerDistance && maxRetries > 0)
+            while (Vector2.Distance(spawnPos, _player.transform.position) < minPlayerDistance && maxRetries > 0)
             {
                 spawnPos = GetRandomSpawnPosition();
                 maxRetries--;

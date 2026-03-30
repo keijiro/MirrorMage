@@ -221,6 +221,7 @@ MonoBehaviour:
   invincibilityDuration: 0.5
   currentLevel: 1
   currentXP: 0
+  totalXP: 0
   xpToNextLevel: 250
   levelUpUI: {fileID: 654577710}
 --- !u!4 &5187009
@@ -1134,7 +1135,10 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 4517806458224495422, guid: 97a630840e92d41858f1004c5a329471, type: 3}
   - {fileID: 4810493619555845211, guid: b61eb37cd40e845fea33edeb1e647b54, type: 3}
-  spawnRate: 2
+  baseSpawnsPerMinute: 15
+  spawnsIncreasePerXP: 0.02
+  baseMaxEnemies: 10
+  maxEnemiesIncreasePerXP: 0.05
   spawnMargin: 1
   minPlayerDistance: 5
 --- !u!4 &1448244763
