@@ -217,7 +217,7 @@ MonoBehaviour:
   barrierDuration: 0.5
   barrierCooldown: 2
   barrierObject: {fileID: 225239325}
-  maxHealth: 100
+  maxHealth: 10
   invincibilityDuration: 0.5
   currentLevel: 1
   currentXP: 0

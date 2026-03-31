@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private float _barrierTimer = 0f;
     private float _cooldownTimer = 0f;
     private bool _isBarrierActive = false;
+    private bool _isDead = false;
 
     private Camera _cam;
     private Animator _animator;
@@ -64,6 +65,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (_isDead) return;
+
         EnsureVisuals(); // Safety for live updates
         FollowMouse();
         UpdateAnimations();
@@ -184,7 +187,7 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        if (_isInvincible || _isBarrierActive) return;
+        if (_isInvincible || _isBarrierActive || _isDead) return;
 
         _currentHealth -= amount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0f, maxHealth);
@@ -193,14 +196,71 @@ public class PlayerController : MonoBehaviour
         if (_currentHealth <= 0)
         {
             Debug.Log("Player Died!");
+            _isDead = true;
+            StartCoroutine(DeathRoutine());
         }
         else
         {
             StartCoroutine(DamageRoutine());
         }
-    }
+        }
 
-    private System.Collections.IEnumerator DamageRoutine()
+        private System.Collections.IEnumerator DeathRoutine()
+        {
+        EnsureVisuals();
+        
+        // Phase 1: Damage performance (red flash and shake)
+        _spriteRenderer.color = Color.red; 
+        float shakeDuration = 0.2f; 
+        float shakeElapsed = 0f;
+        float shakeMagnitude = 0.15f; 
+        Vector3 initialVisualsPos = _visuals.localPosition;
+
+        while (shakeElapsed < shakeDuration)
+        {
+            Vector3 shakeOffset = (Vector3)Random.insideUnitCircle * shakeMagnitude;
+            _visuals.localPosition = initialVisualsPos + shakeOffset;
+            yield return null;
+            shakeElapsed += Time.deltaTime;
+        }
+        
+        // Reset visuals for the death animation
+        _visuals.localPosition = initialVisualsPos;
+        _spriteRenderer.color = Color.white;
+
+        // Phase 2: Time freeze and warp animation
+        Time.timeScale = 0f;
+        
+        // Wait for 0.5 seconds in real time while the animator is still in Scaled mode (frozen)
+        yield return new WaitForSecondsRealtime(0.5f);
+        
+        // Now enable unscaled time for the animator and start the death performance
+        _animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        _animator.SetTrigger("Die");
+
+        // Phase 3: Shadow Fade-out
+        Transform shadowTransform = transform.Find("Shadow");
+        if (shadowTransform != null)
+        {
+            SpriteRenderer shadowSr = shadowTransform.GetComponent<SpriteRenderer>();
+            if (shadowSr != null)
+            {
+                Color initialShadowColor = shadowSr.color;
+                float fadeDuration = 1.3f; // Matches 16-frame anim at 12fps
+                float fadeElapsed = 0f;
+
+                while (fadeElapsed < fadeDuration)
+                {
+                    fadeElapsed += Time.unscaledDeltaTime;
+                    float alpha = Mathf.Lerp(initialShadowColor.a, 0f, fadeElapsed / fadeDuration);
+                    shadowSr.color = new Color(initialShadowColor.r, initialShadowColor.g, initialShadowColor.b, alpha);
+                    yield return null;
+                }
+            }
+        }
+        }
+
+        private System.Collections.IEnumerator DamageRoutine()
     {
         _isInvincible = true;
         EnsureVisuals();
