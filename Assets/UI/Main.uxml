@@ -1,5 +1,9 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <ui:Style src="project://database/Assets/UI/Main.uss" />
+    <ui:VisualElement name="fadeOverlay" class="fade-overlay" picking-mode="Ignore" />
+    <ui:VisualElement name="instructionContainer" class="instruction-container" picking-mode="Ignore">
+        <ui:Label name="instructionLabel" class="instruction-label" text="REFLECT MAGIC TO DEFEAT ENEMIES!" picking-mode="Ignore" />
+    </ui:VisualElement>
     <ui:VisualElement name="hudRoot" class="hud-root">
         <ui:VisualElement class="hud-row">
             <ui:Label text="LIFE" class="hud-label" />
@@ -17,4 +21,4 @@
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
-</ui:UXML>
+    </ui:UXML>

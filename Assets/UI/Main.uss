@@ -36,4 +36,26 @@
     flex-direction: row;
     justify-content: space-between;
     width: 150px;
-}
+    }
+
+    .fade-overlay {
+    position: absolute;
+    width: 100%;
+    background-color: #000000;
+    }
+
+    .instruction-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    }
+
+    .instruction-label {
+    color: #ffff00;
+    font-size: 60px;
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
+    -unity-text-align: middle-center;
+    }

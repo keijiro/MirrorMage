@@ -765,7 +765,7 @@ MonoBehaviour:
   <Color15>k__BackingField: {r: 0.8666667, g: 0.57254905, b: 0.9647059, a: 1}
   <Color16>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <Extended>k__BackingField: 1
-  <Dithering>k__BackingField: 0.02
+  <Dithering>k__BackingField: 0.008
   <Downsampling>k__BackingField: 4
   <Opacity>k__BackingField: 1
   _shader: {fileID: 4800000, guid: 11e94cd5c3fe34771a02e77528668f69, type: 3}
