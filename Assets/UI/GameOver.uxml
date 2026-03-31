@@ -1,0 +1,8 @@
+
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Style src="project://database/Assets/UI/GameOver.uss" />
+    <ui:VisualElement name="root" class="game-over-root">
+        <ui:Label text="GAME OVER" class="game-over-title" />
+        <ui:Label text="CLICK TO RETRY" class="click-to-retry" />
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,22 @@
+
+.game-over-root {
+    flex-grow: 1;
+    background-color: rgba(0, 0, 0, 0.4);
+    justify-content: center;
+    align-items: center;
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
+}
+
+.game-over-title {
+    color: #ff0000;
+    font-size: 100px;
+    -unity-text-align: middle-center;
+    margin-bottom: 200px;
+}
+
+.click-to-retry {
+    color: #ffffff;
+    font-size: 30px;
+    -unity-text-align: middle-center;
+    margin-top: 200px;
+}

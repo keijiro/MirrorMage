@@ -23,3 +23,6 @@ Desktop.ini
 /*.tgz
 
 /Packages/com.unity.ai.assistant
+
+/Assets/AI Toolkit/Temp.meta
+/Assets/AI Toolkit.meta
