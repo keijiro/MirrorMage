@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:Style src="project://database/Assets/UI/Title_Screen.uss" />
+    <ui:VisualElement name="root" class="root" picking-mode="Position">
+        <ui:Label name="startLabel" text="CLICK TO START" class="start-label" />
+        <ui:VisualElement name="fadeOverlay" class="fade-overlay" picking-mode="Ignore" />
+    </ui:VisualElement>
+</ui:UXML>
