@@ -5,5 +5,5 @@
         <ui:Label text="GAME OVER" class="game-over-title" />
         <ui:Label text="CLICK TO RETURN TO TITLE" class="click-to-retry" />
     </ui:VisualElement>
-    <ui:VisualElement name="fadeOverlay" class="fade-overlay" picking-mode="Ignore" />
+    <ui:VisualElement name="fadeOverlay" class="fade-overlay" picking-mode="Ignore" style="display: none;" />
     </ui:UXML>
