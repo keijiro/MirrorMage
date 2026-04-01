@@ -226,9 +226,39 @@ public class PlayerController : MonoBehaviour
             shakeElapsed += Time.deltaTime;
         }
         
-        // Reset visuals for the death animation
         _visuals.localPosition = initialVisualsPos;
         _spriteRenderer.color = Color.white;
+
+        // --- NEW: Darkening Overlay (After damage shake) ---
+        GameObject overlayGo = new GameObject("DeathDarknessOverlay");
+        SpriteRenderer overlaySr = overlayGo.AddComponent<SpriteRenderer>();
+        Texture2D whiteTexture = Texture2D.whiteTexture;
+        Sprite whiteSprite = Sprite.Create(whiteTexture, new Rect(0, 0, whiteTexture.width, whiteTexture.height), new Vector2(0.5f, 0.5f));
+        overlaySr.sprite = whiteSprite;
+        overlaySr.color = new Color(0, 0, 0, 0); 
+        overlaySr.sortingOrder = 90; 
+        overlayGo.transform.localScale = new Vector3(1000f, 1000f, 1f); 
+        overlayGo.transform.position = transform.position;
+
+        _spriteRenderer.sortingOrder = 100;
+        
+        Transform shadowTransform = transform.Find("Shadow");
+        if (shadowTransform != null) {
+            SpriteRenderer shadowSr = shadowTransform.GetComponent<SpriteRenderer>();
+            if (shadowSr != null) shadowSr.sortingOrder = 80;
+        }
+
+        // Fade in the dark overlay slightly (to 0.6 alpha)
+        float darkFadeDuration = 0.3f;
+        float darkFadeElapsed = 0f;
+        while (darkFadeElapsed < darkFadeDuration)
+        {
+            darkFadeElapsed += Time.deltaTime;
+            overlaySr.color = new Color(0, 0, 0, Mathf.Lerp(0f, 0.6f, darkFadeElapsed / darkFadeDuration));
+            yield return null;
+        }
+        overlaySr.color = new Color(0, 0, 0, 0.6f);
+        // ----------------------------------------------------
 
         // Phase 2: Time freeze and warp animation
         Time.timeScale = 0f;
@@ -241,7 +271,6 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger("Die");
 
         // Phase 3: Shadow Fade-out
-        Transform shadowTransform = transform.Find("Shadow");
         if (shadowTransform != null)
         {
             SpriteRenderer shadowSr = shadowTransform.GetComponent<SpriteRenderer>();
@@ -257,51 +286,49 @@ public class PlayerController : MonoBehaviour
                     float alpha = Mathf.Lerp(initialShadowColor.a, 0f, fadeElapsed / fadeDuration);
                     shadowSr.color = new Color(initialShadowColor.r, initialShadowColor.g, initialShadowColor.b, alpha);
                     yield return null;
-                    }
-                    }
-                    }
+                }
+            }
+        }
 
-                    // Phase 4: Black Fill Expands from Center (Inverted Main Start Effect)
-                    UIDocument[] uiDocs = Object.FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
-                    VisualElement fadeOverlay = null;
-                    foreach (var doc in uiDocs)
-                    {
-                    if (doc.visualTreeAsset != null && doc.visualTreeAsset.name == "Main")
-                    {
-                    fadeOverlay = doc.rootVisualElement.Q<VisualElement>("fadeOverlay");
-                    break;
-                    }
-                    }
+        // Phase 4: Black Fill Expands from Center (Inverted Main Start Effect)
+        UIDocument[] uiDocs = Object.FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+        VisualElement fadeOverlay = null;
+        foreach (var doc in uiDocs)
+        {
+            if (doc.visualTreeAsset != null && doc.visualTreeAsset.name == "Main")
+            {
+                fadeOverlay = doc.rootVisualElement.Q<VisualElement>("fadeOverlay");
+                break;
+            }
+        }
 
-                    if (fadeOverlay != null)
-                    {
-                    fadeOverlay.style.display = DisplayStyle.Flex;
-                    float duration = 0.6f;
-                    float elapsed = 0f;
-                    while (elapsed < duration)
-                    {
-                    elapsed += Time.unscaledDeltaTime;
-                    float t = elapsed / duration;
-                    // Ease in: t * t
-                    float easeT = t * t;
-                
-                    float h = Mathf.Lerp(0f, 100f, easeT);
-                    float o = Mathf.Lerp(0f, 1f, easeT);
-                
-                    fadeOverlay.style.height = Length.Percent(h);
-                    fadeOverlay.style.top = Length.Percent((100f - h) / 2f);
-                    fadeOverlay.style.opacity = o;
-                    yield return null;
-                    }
-                    fadeOverlay.style.height = Length.Percent(100f);
-                    fadeOverlay.style.top = Length.Percent(0f);
-                    fadeOverlay.style.opacity = 1f;
-                    }
+        if (fadeOverlay != null)
+        {
+            fadeOverlay.style.display = DisplayStyle.Flex;
+            fadeOverlay.style.opacity = 1f; // Start fully opaque for better transition
+            float duration = 0.6f;
+            float elapsed = 0f;
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float t = elapsed / duration;
+                // Ease in: t * t
+                float easeT = t * t;
+            
+                float h = Mathf.Lerp(0f, 100f, easeT);
+            
+                fadeOverlay.style.height = Length.Percent(h);
+                fadeOverlay.style.top = Length.Percent((100f - h) / 2f);
+                yield return null;
+            }
+            fadeOverlay.style.height = Length.Percent(100f);
+            fadeOverlay.style.top = Length.Percent(0f);
+        }
 
-                    // Phase 5: Wait and Load Game Over
-                    yield return new WaitForSecondsRealtime(0.4f);
-                    SceneManager.LoadScene("GameOver");
-                    }
+        // Phase 5: Wait and Load Game Over
+        yield return new WaitForSecondsRealtime(0.4f);
+        SceneManager.LoadScene("GameOver");
+        }
 
                     private System.Collections.IEnumerator DamageRoutine()
     {

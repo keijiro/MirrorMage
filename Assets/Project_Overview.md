@@ -1,76 +1,82 @@
-# MirrorMage Project Technical Overview
+Based on the project structure, source code, and assets, here is the technical documentation for MirrorMage.
+
+# MirrorMage Project Overview
 
 ## 1. Project Description
-**MirrorMage** is a 2D top-down action "survivor" style game built in Unity 6. The core gameplay focuses on a unique defensive-offensive mechanic: rather than attacking directly, the player uses a magical barrier to reflect enemy projectiles back at them. The project targets players who enjoy bullet-hell dodging mechanics and strategic power-up progression.
+MirrorMage is a 2D top-down action "bullet-reflection" game where the player assumes the role of a mage who lacks offensive spells but possesses a powerful magical barrier. The core experience centers on defensive-to-offensive conversion: surviving waves of projectiles by reflecting them back at enemies.
 
 **Core Pillars:**
-- **Reflective Combat:** Success depends on timing the barrier to redirect incoming spells.
-- **Progression Loop:** Defeating enemies grants XP, leading to level-ups and stat upgrades.
-- **Visual Polish:** High-juice feedback including screen shakes, hit flashes, and stylized URP effects.
+- **Reflective Combat:** Success is tied to the timing and positioning of the barrier rather than direct attacks.
+- **Vampire-Survivors Style Progression:** XP-based leveling with mid-game upgrades to survive increasing difficulty.
+- **High-Juice Feedback:** Heavy use of time-scale manipulation, screen shakes, and color flashing to communicate impacts and deaths.
 
 ## 2. Gameplay Flow / User Loop
-1.  **Boot/Title:** The game starts in the `TitleScreen` scene. The user clicks "Start" via `TitleScreenController`.
-2.  **Main Gameplay:** 
-    - **Movement:** Player follows the mouse cursor.
-    - **Defense/Offense:** Player activates a circular barrier (LMB) to reflect red projectiles. Reflected projectiles turn yellow, move faster, and destroy enemies on contact.
-    - **Spawning:** `EnemySpawner` continuously generates enemies that move toward or keep distance from the player while shooting.
-3.  **Progression:** Enemies drop XP. Upon leveling up, `LevelUpUI` pauses the game and presents three randomized upgrades (Move Speed, Charge Speed, Barrier Strength).
-4.  **Game Over:** If player health reaches zero, the `PlayerController` triggers a death sequence, eventually leading to the `GameOver` scene.
+1.  **Boot/Title:** The game starts in `TitleScreen.unity`, featuring a rippling logo and a character preview.
+2.  **Main Loop:**
+    - Player moves towards the mouse cursor.
+    - `EnemySpawner` generates enemies outside the screen based on total XP.
+    - Enemies fire projectiles at the player.
+    - Player activates the `Barrier` (LMB) to reflect projectiles.
+    - Reflected projectiles kill enemies, granting XP.
+3.  **Progression:** Upon reaching XP thresholds, `LevelUpUI` pauses the game, offering three stat upgrades (Move Speed, Charge Speed, Barrier Strength).
+4.  **Failure:** If the player takes lethal damage, a "Death Routine" triggers (time freeze, dark overlay, black fill transition), leading to `GameOver.unity`.
+5.  **Restart:** Users can retry from the Game Over screen to return to the Main scene.
 
 ## 3. Architecture
-The project follows a component-based architecture with a heavy reliance on Coroutines for stateful animations and gameplay sequences.
+The project follows a component-based architecture where the `PlayerController` acts as the central hub for state, but specific behaviors (Barrier, UI, Spawning) are delegated to dedicated MonoBehaviors.
 
-- **Main Entry Point:** `Main.unity` scene contains the `PlayerController` and `EnemySpawner` which drive the active session.
-- **State Management:** Time-scale manipulation (`Time.timeScale = 0`) is used for pausing during Level Up and Game Over transitions.
-- **Event Handling:** The project uses standard Unity `OnTriggerEnter2D` for collision-based interactions (Projectiles hitting Barriers/Enemies).
-- **UI Architecture:** Built using **UI Toolkit (UITK)**. Scripts query `VisualElement` via `rootVisualElement.Q<T>` and bind logic to styles/classes.
-
-`Location: Assets/Scripts/`
+- **Central Hub:** `PlayerController.cs` manages HP, XP, Level, and the Barrier's high-level state.
+- **State Management:** Uses `Time.timeScale = 0` for pausing during Level Up and specific frames of the death sequence.
+- **Input:** Utilizes the **New Input System**, specifically `Mouse.current` for movement (screen-to-world conversion) and barrier activation.
+- **Scene Flow:** Managed via standard `SceneManager.LoadScene`, often preceded by UI-based fade-out coroutines.
 
 ## 4. Game Systems & Domain Concepts
 
 ### Combat & Reflection System
-A "Reflection" logic governs combat. Projectiles are non-damaging to enemies until reflected by the player's barrier.
-- `Projectile`: Handles movement and the `Reflect` method which flips direction and doubles speed.
-- `Barrier`: Attached to the player; triggers `Reflect` on any incoming `Projectile` with the correct tag.
+A two-stage projectile system where bullets change ownership and properties upon collision with a specific layer/tag.
+- `Barrier.cs`: Detects `Projectile` tags; calculates reflection normals based on the vector from the barrier center.
+- `Projectile.cs`: Implements `Reflect(Vector2 normal)`. Upon reflection, it toggles `isReflected = true`, doubles its speed, changes color to yellow, and becomes lethal to `Enemy` tags.
 `Location: Assets/Scripts/`
 
 ### Enemy AI & Spawning
-Enemies use a state-based behavior routine handled via Coroutines.
-- `Enemy`: Implements `BehaviorRoutine` for movement (approaching or distancing) and `Shoot` for projectile patterns.
-- `EnemySpawner`: Manages wave-like instantiation of enemy prefabs around the player.
+Uses a "state-machine-in-a-coroutine" pattern to handle movement and staggered firing.
+- `Enemy.cs`: Coroutine-based `BehaviorRoutine` that alternates between moving towards/away from the player and a multi-shot firing sequence.
+- `EnemySpawner.cs`: Dynamic difficulty scaling. It increases `baseSpawnsPerMinute` and `baseMaxEnemies` linearly based on the player's `totalXP`.
 `Location: Assets/Scripts/`
 
 ### Leveling & Upgrade System
-A standard XP-based progression system.
-- `PlayerController`: Tracks `currentXP` and `xpToNextLevel`. Triggers the `LevelUpUI`.
-- `LevelUpUI`: Manages the UITK-based selection screen, applying stat modifiers (e.g., `moveSpeed`, `barrierCooldown`) directly to the player.
+A standard "Survivors" upgrade loop.
+- `PlayerController.GainXP()`: Tracks current and total XP. Levels up when `currentXP >= xpToNextLevel`.
+- `LevelUpUI.cs`: Manages the UITK overlay, pauses the game, and applies modifiers (multipliers) to `PlayerController` fields.
 `Location: Assets/Scripts/`
 
 ## 5. Scene Overview
-- **TitleScreen**: Initial landing page. Uses `TitleScreenController` to handle scene transitions.
-- **Main**: The primary gameplay arena. Contains the player, spawners, and the game loop logic.
-- **GameOver**: Terminal state scene showing final results and allowing restart.
+- `TitleScreen.unity`: Initial entry point. Contains `TitleScreenController.cs` which handles the "Press Start" logic and logo ripple shaders.
+- `Main.unity`: The primary gameplay arena. Contains the `Player`, `EnemySpawner`, and a `Global Volume` for URP post-processing.
+- `GameOver.unity`: The failure state scene. Features a unique volume profile and a "Retry" button.
 `Location: Assets/Scenes/`
 
 ## 6. UI System
-The UI is implemented using **Unity UI Toolkit (UITK)**, utilizing `.uxml` for structure and `.uss` for styling.
-
-- **Player HUD**: Displays health and XP bars using width percentage binding in `PlayerHUD.cs`.
-- **Level Up UI**: Features a class-based animation system. It uses `AddToClassList` to trigger USS transitions for "Selected", "Flash", and "Dimmed" states.
-- **Game Start Intro**: `GameStartController` manages a stylized cinematic entry using `fadeOverlay` and blinking instruction labels.
-- **Styling**: Uses the `Jersey_10` font for a consistent retro-arcade aesthetic.
-`Location: Assets/UI/`
+The project exclusively uses **UI Toolkit (UITK)** for all interfaces, leveraging `.uxml` for structure and `.uss` for styling.
+- **Framework:** `UIDocument` components attached to GameObjects.
+- **Key Components:**
+    - `PlayerHUD.cs`: Drives the `Main.uxml` file, updating the health bar, XP bar, and cooldown icon in real-time.
+    - `LevelUpUI.cs`: Handles dynamic CSS class manipulation (e.g., `option-card--hidden` to `option-card--selected`) to drive animations without the Legacy Animator.
+    - `CooldownBar.cs`: A world-space Sprite-based UI used for immediate feedback near the player character.
+- **Transitions:** UI scripts often use `yield return new WaitForSecondsRealtime()` to allow UI animations to finish while the game world is paused.
+`Location: Assets/UI/` and `Assets/Scripts/`
 
 ## 7. Asset & Data Model
-- **Prefabs**: Core entities (`Enemy`, `Projectile`, `Flame_Death_Effect`) are prefabs for easy spawning.
-- **Materials/Shaders**: Uses URP-compatible shaders like `ColorPulse.shader` for environmental effects.
-- **Animations**: Uses the Unity Animator system. Notable controllers include `PlayerController` and `Enemy_Bat_Controller`.
-- **Input**: Configured using the **New Input System**, specifically tracking `Mouse.current.position` and `leftButton`.
-`Location: Assets/Prefabs/`, `Assets/Shaders/`, `Assets/Animations/`
+- **Prefabs:**
+    - `Enemy.prefab`: Base unit for all enemies.
+    - `Projectile.prefab`: Shared by both enemies (harmful) and the player (after reflection).
+- **Animations:** 2D Sprite animations using `Animator` and `AnimationClip`. The player's death animation is a 16-frame sequence at 12fps.
+- **Shaders:** Custom ShaderGraph files like `Title_Logo_Ripple.shader` (Time-based vertex/UV offset) and `ColorPulse.shader` for background environmental effects.
+- **Data Organization:** Simple folder-based taxonomy. No ScriptableObject-based databases are currently used for enemy stats; they are tuned directly on prefabs.
+`Location: Assets/Prefabs/`, `Assets/Shaders/`
 
 ## 8. Notes, Caveats & Gotchas
-- **Time Scale:** The project uses `Time.timeScale = 0` for Level Up. UI animations must use `unscaledDeltaTime` or `WaitForSecondsRealtime` to function during these pauses.
-- **Visuals Child:** `PlayerController` expects a child GameObject named "Visuals" to handle sprite flipping and animations without affecting the root transform's physics/logic.
-- **Reflection Logic:** Reflection is "pure" (geometric reflection off the normal). If the barrier's collider isn't perfectly circular or centered, projectiles might reflect in unexpected directions.
-- **Tag Dependency:** Ensure projectiles are tagged as `Projectile` and enemies as `Enemy` for the `OnTriggerEnter2D` logic to resolve correctly.
+- **Time Scale Dependency:** Many scripts use `Time.unscaledDeltaTime` or `WaitForSecondsRealtime` during the death sequence and level-up screen. If adding new systems (like particles), ensure they are set to "Unscaled" if they should play while the game is "frozen."
+- **Visuals Childing:** `PlayerController` expects a child GameObject named `"Visuals"`. It dynamically searches for `Animator` and `SpriteRenderer` on this child to separate logic from rendering.
+- **Reflection Logic:** Reflection is "pure." The `Projectile` does not target enemies; it reflects perfectly off the barrier's circular bounds. The player must aim their *body position* to angle the return shots.
+- **Layer/Tag Dependency:** The reflection system relies on the `Projectile` and `Enemy` tags. Changing these strings in the Inspector will break the combat loop.

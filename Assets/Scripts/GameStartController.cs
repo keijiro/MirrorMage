@@ -32,6 +32,7 @@ public class GameStartController : MonoBehaviour
         // 1. Initial State: Height 100%, Top 0%, Overlay opaque (1.0)
         if (_fadeOverlay != null)
         {
+            _fadeOverlay.style.display = DisplayStyle.Flex;
             _fadeOverlay.style.height = Length.Percent(100f);
             _fadeOverlay.style.top = Length.Percent(0f);
             _fadeOverlay.style.opacity = 1f;
