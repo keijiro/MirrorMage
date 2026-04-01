@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -255,12 +257,53 @@ public class PlayerController : MonoBehaviour
                     float alpha = Mathf.Lerp(initialShadowColor.a, 0f, fadeElapsed / fadeDuration);
                     shadowSr.color = new Color(initialShadowColor.r, initialShadowColor.g, initialShadowColor.b, alpha);
                     yield return null;
-                }
-            }
-        }
-        }
+                    }
+                    }
+                    }
 
-        private System.Collections.IEnumerator DamageRoutine()
+                    // Phase 4: Black Fill Expands from Center (Inverted Main Start Effect)
+                    UIDocument[] uiDocs = Object.FindObjectsByType<UIDocument>(FindObjectsSortMode.None);
+                    VisualElement fadeOverlay = null;
+                    foreach (var doc in uiDocs)
+                    {
+                    if (doc.visualTreeAsset != null && doc.visualTreeAsset.name == "Main")
+                    {
+                    fadeOverlay = doc.rootVisualElement.Q<VisualElement>("fadeOverlay");
+                    break;
+                    }
+                    }
+
+                    if (fadeOverlay != null)
+                    {
+                    fadeOverlay.style.display = DisplayStyle.Flex;
+                    float duration = 0.6f;
+                    float elapsed = 0f;
+                    while (elapsed < duration)
+                    {
+                    elapsed += Time.unscaledDeltaTime;
+                    float t = elapsed / duration;
+                    // Ease in: t * t
+                    float easeT = t * t;
+                
+                    float h = Mathf.Lerp(0f, 100f, easeT);
+                    float o = Mathf.Lerp(0f, 1f, easeT);
+                
+                    fadeOverlay.style.height = Length.Percent(h);
+                    fadeOverlay.style.top = Length.Percent((100f - h) / 2f);
+                    fadeOverlay.style.opacity = o;
+                    yield return null;
+                    }
+                    fadeOverlay.style.height = Length.Percent(100f);
+                    fadeOverlay.style.top = Length.Percent(0f);
+                    fadeOverlay.style.opacity = 1f;
+                    }
+
+                    // Phase 5: Wait and Load Game Over
+                    yield return new WaitForSecondsRealtime(0.4f);
+                    SceneManager.LoadScene("GameOver");
+                    }
+
+                    private System.Collections.IEnumerator DamageRoutine()
     {
         _isInvincible = true;
         EnsureVisuals();

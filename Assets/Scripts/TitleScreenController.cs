@@ -12,12 +12,21 @@ public class TitleScreenController : MonoBehaviour
 
     private void OnEnable()
     {
+        Time.timeScale = 1f; // Ensure time is moving
         var root = GetComponent<UIDocument>().rootVisualElement;
         _startLabel = root.Q<Label>("startLabel");
         _fadeOverlay = root.Q<VisualElement>("fadeOverlay");
 
         // Start blinking effect
         StartCoroutine(BlinkRoutine());
+        
+        // Start fade-in effect
+        if (_fadeOverlay != null)
+        {
+            _fadeOverlay.style.opacity = 1f;
+            _fadeOverlay.style.display = DisplayStyle.Flex;
+            StartCoroutine(FadeInRoutine());
+        }
     }
 
     private void Update()
@@ -45,6 +54,25 @@ public class TitleScreenController : MonoBehaviour
         StartCoroutine(FadeAndStartRoutine());
     }
 
+    private IEnumerator FadeInRoutine()
+    {
+        float duration = 1.0f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            // Ease out: 1 - (1-t)^2
+            float easeT = 1f - Mathf.Pow(1f - t, 2f);
+            _fadeOverlay.style.opacity = 1f - easeT;
+            yield return null;
+        }
+
+        _fadeOverlay.style.opacity = 0f;
+        _fadeOverlay.style.display = DisplayStyle.None;
+    }
+
     private IEnumerator BlinkRoutine()
     {
         while (!_isStarting)
@@ -61,18 +89,22 @@ public class TitleScreenController : MonoBehaviour
         float duration = 0.5f;
         float elapsed = 0f;
 
-        // Reset fade overlay opacity just in case
-_fadeOverlay.style.opacity = 0f;
+        // Ensure overlay is visible before starting fade-out
+        if (_fadeOverlay != null)
+        {
+            _fadeOverlay.style.display = DisplayStyle.Flex;
+            _fadeOverlay.style.opacity = 0f;
+        }
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float t = elapsed / duration;
-            _fadeOverlay.style.opacity = t;
+            if (_fadeOverlay != null) _fadeOverlay.style.opacity = t;
             yield return null;
         }
 
-        _fadeOverlay.style.opacity = 1f;
+        if (_fadeOverlay != null) _fadeOverlay.style.opacity = 1f;
         
         // Load the Main scene (Index 1)
         SceneManager.LoadScene(1);
