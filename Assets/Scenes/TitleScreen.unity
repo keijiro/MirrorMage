@@ -227,6 +227,50 @@ MonoBehaviour:
   minIntensity: 0.9
   maxIntensity: 1
   baseColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &780676224
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 780676226}
+  - component: {fileID: 780676225}
+  m_Layer: 0
+  m_Name: AudioSceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &780676225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780676224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73ca6000bc6b849b990be50a88a7d618, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioSceneLoader
+--- !u!4 &780676226
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 780676224}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &837700321
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,8 +605,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32803df6a9ae4b83be4b59405a932c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleScreenController
-  clickClip: {fileID: 8300000, guid: e9eaf1372e1d34e0a850c3c813245638, type: 3}
-  titleJingle: {fileID: 8300000, guid: 20ed8f155320842a182f18acb1358a5a, type: 3}
+  clickID: 6
+  titleJingleID: 1
 --- !u!114 &1801982715
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -970,3 +1014,4 @@ SceneRoots:
   - {fileID: 1069486735}
   - {fileID: 2087212390}
   - {fileID: 1801982716}
+  - {fileID: 780676226}

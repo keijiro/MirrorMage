@@ -14,13 +14,9 @@ public class Barrier : MonoBehaviour
     public float expansionDuration = 0.175f;
     public float expansionScaleTarget = 2.2f;
 
-    [Header("Audio Settings")]
-    public AudioClip activateClip;
-    public AudioClip reflectClip;
-
     private SpriteRenderer _sr;
-private Collider2D _col;
-    private bool _isFading = false;
+    private Collider2D _col;
+private bool _isFading = false;
     private Color _baseColor;
     
     private Transform _expansionEffect;
@@ -63,7 +59,7 @@ private Collider2D _col;
         gameObject.SetActive(true);
         if (_col != null) _col.enabled = true;
         
-        AudioManager.PlaySFX(activateClip);
+        AudioManager.PlaySFX(AudioID.SFX_Barrier_Activate);
 
         StartCoroutine(AppearRoutine());
 if (_expansionEffect != null)
@@ -160,8 +156,8 @@ if (_expansionEffect != null)
                 // Calculate normal based on the vector from barrier center to projectile
                 Vector2 normal = (other.transform.position - transform.position).normalized;
                 p.Reflect(normal);
-                AudioManager.PlaySFX(reflectClip, 1f, true);
+                AudioManager.PlaySFX(AudioID.SFX_Reflect);
                 }
-                }
+}
                 }
                 }

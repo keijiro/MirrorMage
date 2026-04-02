@@ -10,21 +10,23 @@ public class TitleScreenController : MonoBehaviour
     private VisualElement _fadeOverlay;
     private bool _isStarting = false;
 
-    [Header("Audio")]
-    public AudioClip clickClip;
-    public AudioClip titleJingle;
-
-    private void OnEnable()
+    private IEnumerator Start()
     {
         Time.timeScale = 1f; // Ensure time is moving
         var root = GetComponent<UIDocument>().rootVisualElement;
         _startLabel = root.Q<Label>("startLabel");
         _fadeOverlay = root.Q<VisualElement>("fadeOverlay");
 
-        AudioManager.PlayBGM(titleJingle, false);
+        // Wait for AudioManager to be available
+        while (AudioManager.Instance == null)
+        {
+            yield return null;
+        }
+
+        AudioManager.PlayBGM(AudioID.BGM_Title, false);
 
         // Start blinking effect
-StartCoroutine(BlinkRoutine());
+        StartCoroutine(BlinkRoutine());
         
         // Start fade-in effect
         if (_fadeOverlay != null)
@@ -52,7 +54,7 @@ StartCoroutine(BlinkRoutine());
     private void StartGame()
     {
         _isStarting = true;
-        AudioManager.PlaySFX(clickClip, 1f, true);
+        AudioManager.PlaySFX(AudioID.SFX_Click);
         StopAllCoroutines();
 
         // Ensure label is visible when clicked

@@ -14,6 +14,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameOver.unity
     guid: 25149e533549b48e3a18031dda1fbe71
+  - enabled: 1
+    path: Assets/Scenes/AudioSystem.unity
+    guid: 571ae3f00a73446219fe31397fa78fc2
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
   m_UseUCBPForAssetBundles: 0

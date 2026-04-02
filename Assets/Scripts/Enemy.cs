@@ -19,7 +19,6 @@ public class Enemy : MonoBehaviour
     [Header("Visuals & Rewards")]
     public float xpValue = 25f;
     public GameObject deathEffectPrefab;
-    public AudioClip deathClip;
 
     private Transform _player;
 private SpriteRenderer _spriteRenderer;
@@ -113,7 +112,7 @@ private SpriteRenderer _spriteRenderer;
     private IEnumerator DeathRoutine()
     {
         _isDying = true;
-        AudioManager.PlaySFX(deathClip);
+        AudioManager.PlaySFX(AudioID.SFX_Enemy_Death);
 
         // 1. Disable interaction
 Collider2D col = GetComponent<Collider2D>();

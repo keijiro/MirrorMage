@@ -12,9 +12,6 @@ public class LevelUpUI : MonoBehaviour
     private List<Button> _optionButtons = new List<Button>();
     private Coroutine _flashCoroutine;
 
-    [Header("Audio")]
-    public AudioClip clickClip;
-
     private const string HIDDEN_CLASS = "option-card--hidden";
 private const string SELECTED_CLASS = "option-card--selected";
     private const string FLASH_CLASS = "option-card--flash";
@@ -87,7 +84,7 @@ private const string SELECTED_CLASS = "option-card--selected";
 
     private IEnumerator HandleSelection(Button selectedBtn, System.Action applyUpgrade)
     {
-        AudioManager.PlaySFX(clickClip, 1f, true);
+        AudioManager.PlaySFX(AudioID.SFX_Click);
 
         // 1. Instant Flash and Scale Pop
 selectedBtn.AddToClassList(FLASH_CLASS);

@@ -1,93 +1,115 @@
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
-    private static AudioManager _instance;
+    public static AudioManager Instance { get; private set; }
+
+    [System.Serializable]
+    public struct AudioData
+    {
+        public AudioID id;
+        public AudioClip clip;
+        [Range(0f, 1f)] public float volume;
+        public bool useReverb;
+    }
+
+    [Header("Clips")]
+    [SerializeField] private AudioData[] audioDataList;
+
+    [Header("Mixer Settings")]
+    [SerializeField] private AudioMixerGroup bypassGroup;
+    [SerializeField] private AudioMixerGroup reverbGroup;
+
+    private Dictionary<AudioID, AudioClip> _clipDict = new Dictionary<AudioID, AudioClip>();
+    private Dictionary<AudioID, float> _volumeDict = new Dictionary<AudioID, float>();
+    private Dictionary<AudioID, bool> _reverbDict = new Dictionary<AudioID, bool>();
+
     private AudioSource _seSource;
     private AudioSource _reverbSeSource;
     private AudioSource _bgmSource;
 
-    [Header("Mixer Settings")]
-    private AudioMixerGroup bypassGroup;
-    private AudioMixerGroup reverbGroup;
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void Initialize()
+    private void Awake()
     {
-        if (_instance == null)
+        if (Instance == null)
         {
-            GameObject go = new GameObject("GlobalAudioManager");
-            _instance = go.AddComponent<AudioManager>();
-            
-            _instance._seSource = go.AddComponent<AudioSource>();
-            _instance._reverbSeSource = go.AddComponent<AudioSource>();
-            _instance._bgmSource = go.AddComponent<AudioSource>();
-            
-            // Load Mixer Groups
-            AudioMixer mixer = Resources.Load<AudioMixer>("MainMixer");
-            if (mixer == null)
-            {
-                // Try to find it in the project (only works in editor or if assigned, but for now we search)
-    #if UNITY_EDITOR
-                mixer = UnityEditor.AssetDatabase.LoadAssetAtPath<AudioMixer>("Assets/Audio/MainMixer.mixer");
-    #endif
-            }
-
-            if (mixer != null)
-            {
-                AudioMixerGroup[] bypassGroups = mixer.FindMatchingGroups("Bypass");
-                if (bypassGroups.Length > 0) _instance.bypassGroup = bypassGroups[0];
-
-                AudioMixerGroup[] reverbGroups = mixer.FindMatchingGroups("Reverb");
-                if (reverbGroups.Length > 0) _instance.reverbGroup = reverbGroups[0];
-            }
-            
-            DontDestroyOnLoad(go);
+            Instance = this;
+            Initialize();
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 
-    private void Update()
+    private void Initialize()
     {
-        // Apply groups if assigned
-        if (_seSource != null && bypassGroup != null) _seSource.outputAudioMixerGroup = bypassGroup;
-        if (_reverbSeSource != null && reverbGroup != null) _reverbSeSource.outputAudioMixerGroup = reverbGroup;
-        if (_bgmSource != null && bypassGroup != null) _bgmSource.outputAudioMixerGroup = bypassGroup;
+        _clipDict.Clear();
+        _volumeDict.Clear();
+        _reverbDict.Clear();
+
+        foreach (var data in audioDataList)
+        {
+            if (data.id == AudioID.None) continue;
+            _clipDict[data.id] = data.clip;
+            _volumeDict[data.id] = data.volume;
+            _reverbDict[data.id] = data.useReverb;
+        }
+
+        _seSource = gameObject.AddComponent<AudioSource>();
+        _seSource.outputAudioMixerGroup = bypassGroup;
+
+        _reverbSeSource = gameObject.AddComponent<AudioSource>();
+        _reverbSeSource.outputAudioMixerGroup = reverbGroup;
+
+        _bgmSource = gameObject.AddComponent<AudioSource>();
+        _bgmSource.outputAudioMixerGroup = bypassGroup;
     }
 
-    public static void PlaySFX(AudioClip clip, float volume = 1f, bool useReverb = false)
+    public static void PlaySFX(AudioID id)
     {
-        if (_instance != null && clip != null)
+        if (Instance == null) return;
+        
+        if (Instance._clipDict.TryGetValue(id, out var clip))
         {
+            float volume = Instance._volumeDict.ContainsKey(id) ? Instance._volumeDict[id] : 1f;
+            bool useReverb = Instance._reverbDict.ContainsKey(id) && Instance._reverbDict[id];
+            
             if (useReverb)
             {
-                _instance._reverbSeSource.PlayOneShot(clip, volume);
+                Instance._reverbSeSource.PlayOneShot(clip, volume);
             }
             else
             {
-                _instance._seSource.PlayOneShot(clip, volume);
+                Instance._seSource.PlayOneShot(clip, volume);
             }
         }
     }
 
-    public static void PlayBGM(AudioClip clip, bool loop = true, float volume = 0.5f)
+    public static void PlayBGM(AudioID id, bool loop = true)
     {
-        if (_instance != null && clip != null)
+        if (Instance == null) return;
+
+        if (Instance._clipDict.TryGetValue(id, out var clip))
         {
-            if (_instance._bgmSource.clip == clip && _instance._bgmSource.isPlaying) return;
+            if (Instance._bgmSource.clip == clip && Instance._bgmSource.isPlaying) return;
             
-            _instance._bgmSource.clip = clip;
-            _instance._bgmSource.loop = loop;
-            _instance._bgmSource.volume = volume;
-            _instance._bgmSource.Play();
+            float volume = Instance._volumeDict.ContainsKey(id) ? Instance._volumeDict[id] : 0.5f;
+
+            Instance._bgmSource.clip = clip;
+            Instance._bgmSource.loop = loop;
+            Instance._bgmSource.volume = volume;
+            Instance._bgmSource.Play();
         }
     }
 
     public static void StopBGM()
     {
-        if (_instance != null)
+        if (Instance != null)
         {
-            _instance._bgmSource.Stop();
+            Instance._bgmSource.Stop();
         }
     }
 }
