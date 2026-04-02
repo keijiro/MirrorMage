@@ -181,8 +181,10 @@ public class PlayerController : MonoBehaviour
         _currentHealth = maxHealth; // Reward: Full heal
         Debug.Log($"Level Up! Now Level {currentLevel}");
 
+        AudioManager.PlaySFX(AudioID.SFX_Level_Up);
+
         if (levelUpUI != null)
-        {
+{
             levelUpUI.Show(this);
         }
     }

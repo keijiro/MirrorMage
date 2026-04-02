@@ -9,5 +9,6 @@ public enum AudioID
     SFX_Click,
     SFX_Player_Damage,
     SFX_Player_Death,
-    SFX_Warp_Exit
-}
+    SFX_Warp_Exit,
+    SFX_Level_Up
+    }

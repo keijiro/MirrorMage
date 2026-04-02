@@ -181,6 +181,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 19607e6e325eb4962abf05a7a546ed05, type: 3}
     volume: 1
     useReverb: 1
+  - id: 10
+    clip: {fileID: 8300000, guid: e722481175dc445068c5ac56f2df3f9a, type: 3}
+    volume: 0.9
+    useReverb: 1
   bypassGroup: {fileID: 8954079441006071074, guid: aa7c4282a43d34333b3a36ce0e0a8721, type: 2}
   reverbGroup: {fileID: 1814080089346908702, guid: aa7c4282a43d34333b3a36ce0e0a8721, type: 2}
 --- !u!4 &1396115083
