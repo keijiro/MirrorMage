@@ -42,7 +42,7 @@ public class GameOverController : MonoBehaviour
 
         if (mouseClicked)
         {
-            AudioManager.PlaySFX(clickClip);
+            AudioManager.PlaySFX(clickClip, 1f, true);
             StartCoroutine(ReturnToTitleRoutine());
         }
         }

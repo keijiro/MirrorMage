@@ -52,7 +52,7 @@ StartCoroutine(BlinkRoutine());
     private void StartGame()
     {
         _isStarting = true;
-        AudioManager.PlaySFX(clickClip);
+        AudioManager.PlaySFX(clickClip, 1f, true);
         StopAllCoroutines();
 
         // Ensure label is visible when clicked

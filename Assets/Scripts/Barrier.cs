@@ -160,7 +160,7 @@ if (_expansionEffect != null)
                 // Calculate normal based on the vector from barrier center to projectile
                 Vector2 normal = (other.transform.position - transform.position).normalized;
                 p.Reflect(normal);
-                AudioManager.PlaySFX(reflectClip);
+                AudioManager.PlaySFX(reflectClip, 1f, true);
                 }
                 }
                 }

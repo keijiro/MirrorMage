@@ -87,10 +87,10 @@ private const string SELECTED_CLASS = "option-card--selected";
 
     private IEnumerator HandleSelection(Button selectedBtn, System.Action applyUpgrade)
     {
-        AudioManager.PlaySFX(clickClip);
+        AudioManager.PlaySFX(clickClip, 1f, true);
 
         // 1. Instant Flash and Scale Pop
-        selectedBtn.AddToClassList(FLASH_CLASS);
+selectedBtn.AddToClassList(FLASH_CLASS);
 
         // 2. Set final selected state immediately underneath the flash
         foreach (var btn in _optionButtons)
