@@ -217,7 +217,7 @@ MonoBehaviour:
   barrierDuration: 0.5
   barrierCooldown: 2
   barrierObject: {fileID: 225239325}
-  maxHealth: 10
+  maxHealth: 50
   invincibilityDuration: 0.5
   currentLevel: 1
   currentXP: 0
@@ -317,8 +317,6 @@ MonoBehaviour:
   pulseMaxAlpha: 1
   expansionDuration: 0.35
   expansionScaleTarget: 1.5
-  activateID: 3
-  reflectID: 4
 --- !u!212 &225239328
 SpriteRenderer:
   serializedVersion: 2
@@ -648,7 +646,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb69639eddbb4092b531a7553b77417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpUI
-  clickID: 6
 --- !u!114 &654577711
 MonoBehaviour:
   m_ObjectHideFlags: 0

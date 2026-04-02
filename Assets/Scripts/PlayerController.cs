@@ -195,20 +195,24 @@ public class PlayerController : MonoBehaviour
         _currentHealth = Mathf.Clamp(_currentHealth, 0f, maxHealth);
         Debug.Log($"Player took {amount} damage! Current HP: {_currentHealth}");
 
+        // Always play damage sound
+        AudioManager.PlaySFX(AudioID.SFX_Player_Damage);
+
         if (_currentHealth <= 0)
         {
             Debug.Log("Player Died!");
             _isDead = true;
+            AudioManager.PlaySFX(AudioID.SFX_Player_Death);
             StartCoroutine(DeathRoutine());
         }
         else
         {
             StartCoroutine(DamageRoutine());
         }
-        }
+    }
 
-        private System.Collections.IEnumerator DeathRoutine()
-        {
+    private System.Collections.IEnumerator DeathRoutine()
+    {
         EnsureVisuals();
         
         // Phase 1: Damage performance (red flash and shake)
@@ -269,6 +273,10 @@ public class PlayerController : MonoBehaviour
         // Now enable unscaled time for the animator and start the death performance
         _animator.updateMode = AnimatorUpdateMode.UnscaledTime;
         _animator.SetTrigger("Die");
+
+        // Delay the warp exit sound by 0.6 seconds to better sync with the animation
+        yield return new WaitForSecondsRealtime(0.6f);
+        AudioManager.PlaySFX(AudioID.SFX_Warp_Exit);
 
         // Phase 3: Shadow Fade-out
         if (shadowTransform != null)
