@@ -561,6 +561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c32803df6a9ae4b83be4b59405a932c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TitleScreenController
+  clickClip: {fileID: 8300000, guid: e9eaf1372e1d34e0a850c3c813245638, type: 3}
+  titleJingle: {fileID: 8300000, guid: 20ed8f155320842a182f18acb1358a5a, type: 3}
 --- !u!114 &1801982715
 MonoBehaviour:
   m_ObjectHideFlags: 0

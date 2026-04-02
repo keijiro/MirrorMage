@@ -210,6 +210,7 @@ MonoBehaviour:
   postShootWait: 0.4
   xpValue: 25
   deathEffectPrefab: {fileID: 3591265341649820116, guid: 53efe2b9aadf848b380f585f1be6f128, type: 3}
+  deathClip: {fileID: 8300000, guid: b4d9cf895951340fbbdc653badcef9bb, type: 3}
 --- !u!58 &2649124352066510024
 CircleCollider2D:
   m_ObjectHideFlags: 0

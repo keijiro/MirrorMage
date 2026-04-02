@@ -317,6 +317,8 @@ MonoBehaviour:
   pulseMaxAlpha: 1
   expansionDuration: 0.35
   expansionScaleTarget: 1.5
+  activateClip: {fileID: 8300000, guid: 0919f932b090c4bdd82a8a198098a22b, type: 3}
+  reflectClip: {fileID: 8300000, guid: ae1668e54464143dcae7fb939197c356, type: 3}
 --- !u!212 &225239328
 SpriteRenderer:
   serializedVersion: 2
@@ -646,6 +648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: beb69639eddbb4092b531a7553b77417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelUpUI
+  clickClip: {fileID: 8300000, guid: e9eaf1372e1d34e0a850c3c813245638, type: 3}
 --- !u!114 &654577711
 MonoBehaviour:
   m_ObjectHideFlags: 0

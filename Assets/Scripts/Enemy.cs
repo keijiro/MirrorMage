@@ -19,9 +19,10 @@ public class Enemy : MonoBehaviour
     [Header("Visuals & Rewards")]
     public float xpValue = 25f;
     public GameObject deathEffectPrefab;
+    public AudioClip deathClip;
 
     private Transform _player;
-    private SpriteRenderer _spriteRenderer;
+private SpriteRenderer _spriteRenderer;
     private Animator _animator;
     private bool _isDying = false;
 
@@ -112,9 +113,10 @@ public class Enemy : MonoBehaviour
     private IEnumerator DeathRoutine()
     {
         _isDying = true;
+        AudioManager.PlaySFX(deathClip);
 
         // 1. Disable interaction
-        Collider2D col = GetComponent<Collider2D>();
+Collider2D col = GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
 
         // 2. Pre-death effect: Flash and Shake

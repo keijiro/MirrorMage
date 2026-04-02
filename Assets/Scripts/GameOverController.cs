@@ -10,8 +10,11 @@ public class GameOverController : MonoBehaviour
     private VisualElement _fadeOverlay;
     private bool _isTransitioning = false;
 
+    [Header("Audio")]
+    public AudioClip clickClip;
+
     private void OnEnable()
-    {
+{
         var root = GetComponent<UIDocument>().rootVisualElement;
         _retryLabel = root.Q<Label>(null, "click-to-retry");
         _fadeOverlay = root.Q<VisualElement>("fadeOverlay");
@@ -39,9 +42,10 @@ public class GameOverController : MonoBehaviour
 
         if (mouseClicked)
         {
+            AudioManager.PlaySFX(clickClip);
             StartCoroutine(ReturnToTitleRoutine());
         }
-    }
+        }
 
     private IEnumerator FadeInRoutine()
     {

@@ -455,6 +455,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3c475ecf9760496fb89899be24a0744, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameOverController
+  clickClip: {fileID: 8300000, guid: e9eaf1372e1d34e0a850c3c813245638, type: 3}
 --- !u!1 &1318093954
 GameObject:
   m_ObjectHideFlags: 0
