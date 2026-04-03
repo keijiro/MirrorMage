@@ -11,7 +11,7 @@ public class GameOverController : MonoBehaviour
     private bool _isTransitioning = false;
 
     private void OnEnable()
-{
+    {
         var root = GetComponent<UIDocument>().rootVisualElement;
         _retryLabel = root.Q<Label>(null, "click-to-retry");
         _fadeOverlay = root.Q<VisualElement>("fadeOverlay");
@@ -27,6 +27,13 @@ public class GameOverController : MonoBehaviour
             _fadeOverlay.style.height = Length.Percent(100f);
             _fadeOverlay.style.top = Length.Percent(0f);
             _fadeOverlay.style.opacity = 1f;
+        }
+    }
+
+    private void Start()
+    {
+        if (_fadeOverlay != null)
+        {
             StartCoroutine(FadeInRoutine());
         }
     }
@@ -49,16 +56,14 @@ public class GameOverController : MonoBehaviour
         // Wait for a very short moment while black to ensure the player feels the scene transition
         yield return new WaitForSecondsRealtime(0.1f);
 
-        float duration = 1.0f; // Increased to 1.0s
+        float duration = 1.0f;
         float elapsed = 0f;
 
         while (elapsed < duration)
         {
             elapsed += Time.unscaledDeltaTime;
             float t = elapsed / duration;
-            // Ease out: 1 - (1-t)^2
-            float easeT = 1f - Mathf.Pow(1f - t, 2f);
-            _fadeOverlay.style.opacity = 1f - easeT;
+            _fadeOverlay.style.opacity = 1f - t;
             yield return null;
         }
 
