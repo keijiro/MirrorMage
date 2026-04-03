@@ -1,16 +1,117 @@
 .root {
     flex-grow: 1;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     background-color: rgba(0, 0, 0, 0);
 }
 
 .start-label {
     margin-bottom: 100px;
+    position: absolute;
+    bottom: 0;
     color: rgb(255, 255, 255);
     font-size: 60px;
     -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
     -unity-text-align: middle-center;
+}
+
+.instruction-card {
+    background-color: rgba(20, 20, 20, 0.95);
+    border-width: 4px;
+    border-color: rgb(180, 180, 180);
+    border-radius: 12px;
+    padding: 20px 30px; /* Reduced vertical padding */
+    width: 650px; /* Narrower for vertical layout */
+    display: none; /* Hidden by default for production */
+    transform-origin: center;
+    
+    /* Initial state for pop-in animation */
+    scale: 1.2 0.05;
+    opacity: 0;
+    
+    /* Transition settings */
+    transition-property: scale, opacity;
+    transition-duration: 0.4s;
+    transition-timing-function: ease-out-cubic;
+}
+
+.instruction-card--visible {
+    scale: 1 1;
+    opacity: 1;
+}
+
+.instruction-story {
+    color: rgb(210, 210, 210);
+    font-size: 30px; /* Increased from 28px */
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
+    -unity-font-style: italic;
+    margin-bottom: 15px;
+    -unity-text-align: middle-left;
+    white-space: normal;
+}
+
+.instruction-body {
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+.instruction-section {
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.instruction-illustration {
+    width: 140px;
+    height: 140px;
+    margin-bottom: 0;
+    border-width: 2px;
+    border-color: rgb(180, 180, 180);
+    border-radius: 12px;
+    -unity-background-scale-mode: scale-to-fit;
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.move-illustration {
+    background-image: url("project://database/Assets/Sprites/Instruction_Illustration.png");
+}
+
+.mirror-illustration {
+    background-image: url("project://database/Assets/Sprites/MirrorMagic_Illustration.png");
+}
+
+.instruction-item {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-left: 20px;
+    flex-grow: 1;
+}
+
+.instruction-key {
+    color: rgb(255, 215, 0);
+    font-size: 32px; /* Increased from 28px */
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
+    margin-bottom: 2px;
+}
+
+.instruction-desc {
+    color: rgb(255, 255, 255);
+    font-size: 26px; /* Increased from 24px */
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
+    -unity-text-align: middle-left;
+    white-space: normal;
+}
+
+.instruction-footer {
+    color: rgb(150, 150, 150);
+    font-size: 24px; /* Increased from 22px */
+    -unity-font-definition: url("project://database/Assets/UI/Jersey_10/Jersey10-Regular%20SDF.asset");
+    -unity-text-align: middle-center;
+    margin-top: 5px;
 }
 
 .fade-overlay {
@@ -22,3 +123,4 @@
     background-color: rgb(0, 0, 0);
     opacity: 0;
 }
+

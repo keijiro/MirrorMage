@@ -1,6 +1,26 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
     <ui:Style src="project://database/Assets/UI/Title_Screen.uss" />
     <ui:VisualElement name="root" class="root" picking-mode="Position">
+        <ui:VisualElement name="instructionCard" class="instruction-card">
+            <ui:Label text="An apprentice mage, you are ordered to purge the monsters within the dungeon. Use your only spell, 'Mirror Magic', to reflect their projectiles and defeat them." class="instruction-story" />
+            <ui:VisualElement class="instruction-body">
+                <ui:VisualElement class="instruction-section">
+                    <ui:VisualElement name="moveIllustration" class="instruction-illustration move-illustration" />
+                    <ui:VisualElement class="instruction-item">
+                        <ui:Label text="MOVE" class="instruction-key" />
+                        <ui:Label text="She moves toward your mouse cursor." class="instruction-desc" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement class="instruction-section">
+                    <ui:VisualElement name="mirrorIllustration" class="instruction-illustration mirror-illustration" />
+                    <ui:VisualElement class="instruction-item">
+                        <ui:Label text="MIRROR" class="instruction-key" />
+                        <ui:Label text="Click to cast Mirror Magic. Reflected bolts defeat your enemies." class="instruction-desc" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:Label text="CLICK ANYWHERE TO START YOUR JOURNEY" class="instruction-footer" />
+        </ui:VisualElement>
         <ui:Label name="startLabel" text="CLICK TO START" class="start-label" />
         <ui:VisualElement name="fadeOverlay" class="fade-overlay" picking-mode="Ignore" />
     </ui:VisualElement>
