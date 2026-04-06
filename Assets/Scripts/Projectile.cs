@@ -5,6 +5,14 @@ public class Projectile : MonoBehaviour
     public float speed = 5f;
     public bool isReflected = false;
     public Vector2 direction;
+    public Sprite reflectedSprite;
+
+    private SpriteRenderer _sr;
+
+    void Awake()
+    {
+        _sr = GetComponent<SpriteRenderer>();
+    }
 
     void Update()
     {
@@ -28,8 +36,16 @@ public class Projectile : MonoBehaviour
         
         speed *= 2f;
         
-        // Visual feedback
-        GetComponent<SpriteRenderer>().color = Color.yellow;
+        // Visual feedback: swap sprite and reset color to white
+        if (reflectedSprite != null && _sr != null)
+        {
+            _sr.sprite = reflectedSprite;
+            _sr.color = Color.white;
+        }
+        else if (_sr != null)
+        {
+            _sr.color = Color.yellow; // Fallback
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

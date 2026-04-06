@@ -109,6 +109,7 @@ MonoBehaviour:
   speed: 2
   isReflected: 0
   direction: {x: 0, y: 0}
+  reflectedSprite: {fileID: 21300000, guid: 3f313cf5944cc418a8c6cede471bbabd, type: 3}
 --- !u!58 &4816049939007204389
 CircleCollider2D:
   m_ObjectHideFlags: 0
