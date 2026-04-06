@@ -31,9 +31,21 @@ public class Projectile : MonoBehaviour
 
         isReflected = true;
         
-        // Pure geometric reflection off the surface normal
-        direction = Vector2.Reflect(direction, normal).normalized;
-        
+        // Calculate the raw geometric reflection
+        Vector2 reflectedDir = Vector2.Reflect(direction, normal).normalized;
+
+        // Plan 2: Ensure the reflected direction is pointing AWAY from the center (along the normal)
+        // If the dot product is negative, it means the reflected vector is pointing back towards the center.
+        if (Vector2.Dot(reflectedDir, normal) < 0)
+        {
+            // Force the direction to align more with the normal (pointing outward)
+            // We can either flip it or just use the normal directly to "push" it out.
+            // Using Vector2.Reflect again or just projecting it can work, 
+            // but the simplest robust way to "ensure outward" is to flip the component against the normal.
+            reflectedDir = (reflectedDir - 2 * Vector2.Dot(reflectedDir, normal) * normal).normalized;
+        }
+
+        direction = reflectedDir;
         speed *= 2f;
         
         // Visual feedback: swap sprite and reset color to white
