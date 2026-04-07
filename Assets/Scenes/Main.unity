@@ -1179,6 +1179,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 4517806458224495422, guid: 97a630840e92d41858f1004c5a329471, type: 3}
   - {fileID: 4810493619555845211, guid: b61eb37cd40e845fea33edeb1e647b54, type: 3}
+  - {fileID: 8057356240219106385, guid: fe14db0b88ddc4126aa6d321d8c574dc, type: 3}
   baseSpawnsPerMinute: 15
   spawnsIncreasePerXP: 0.02
   baseMaxEnemies: 10
