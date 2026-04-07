@@ -12,6 +12,38 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -203401660, guid: b372ab1ee194d4817b318e75a894db05, type: 3}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: bulletCount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: spreadAngle
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: isStationary
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: preShootWait
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: postShootWait
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: shootRepeatCount
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: spawnEffectPrefab
+      value: 
+      objectReference: {fileID: 9933725413935469, guid: fd9b8371f7d624f77859154a9f17c688, type: 3}
+    - target: {fileID: 3741507108224839861, guid: 97a630840e92d41858f1004c5a329471, type: 3}
+      propertyPath: spawnInsideScreen
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3795979815387357228, guid: 97a630840e92d41858f1004c5a329471, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

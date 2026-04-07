@@ -1,83 +1,75 @@
-# MirrorMage Project Overview
+# MirrorMage Technical Project Overview
 
 ## 1. Project Description
-MirrorMage is a high-octane 2D top-down action game where players control a mage whose primary defense is a reflective barrier. Instead of traditional projectile attacks, the player must reflect enemy bullets back at them to survive and clear waves. It is designed for players who enjoy "bullet hell" mechanics with a defensive twist, focusing on timing and positioning. The core pillars of the experience are **Reflexive Combat**, **Risk-Reward Barrier Management**, and **Persistent Progression** via a level-up system.
+**MirrorMage** is a 2D top-down action survival game where the player controls a mage who survives not by casting fireballs, but by reflecting them. The core experience centers around a "Perfect Guard" mechanic—using a magical barrier to reflect enemy projectiles back at them. The game features an endless wave-based survival loop, XP-based progression, and a distinct visual style utilizing URP 2D and UITK for its interface.
 
 ## 2. Gameplay Flow / User Loop
-*   **Boot & Title**: The player starts at the `TitleScreen` scene, where they can view instructions and start the game.
-*   **Main Game Loop**: 
-    1.  **Movement**: The player follows the mouse cursor to navigate the arena.
-    2.  **Survival**: Enemies spawn and shoot projectiles at the player.
-    3.  **Barrier Usage**: The player activates a timed barrier (Left Click) to reflect projectiles. 
-    4.  **Progression**: Killing enemies grants XP. Reaching an XP threshold triggers a `LevelUpUI` overlay.
-    5.  **Upgrade**: The player selects one of three permanent buffs (Speed, Cooldown, or Barrier Strength), resuming the action.
-*   **Death**: Upon losing all health, a dramatic death sequence plays, transitioning to the `GameOver` scene.
-*   **Restart**: The player can return to the title screen or retry from the game over menu.
+1.  **Boot & Title**: The player starts at `TitleScreen.unity`, where they can view the logo and start the game.
+2.  **Main Loop**:
+    *   **Movement**: Player moves toward the mouse cursor.
+    *   **Survival**: Enemies spawn and shoot projectiles at the player.
+    *   **Reflection**: Player activates a temporary `Barrier` to reflect projectiles. Reflected projectiles become lethal to enemies.
+    *   **Progression**: Defeating enemies drops XP, filling the level bar.
+    *   **Level Up**: Upon leveling up, the game pauses, and a `LevelUpUI` (UITK) appears, allowing the player to choose one of three upgrades (Move Speed, Charge Speed, or Barrier Strength).
+3.  **Game Over**: When health reaches zero, a death sequence plays, transitioning to `GameOver.unity` where the player can restart.
 
 ## 3. Architecture
-The project uses a component-based architecture with several manager singletons and scene-based separation for global systems.
+The project follows a component-based architecture with a centralized Singleton for cross-scene services (Audio) and an event-driven flow for UI and progression.
 
-*   **Audio Management**: A persistent `AudioManager` singleton handles SFX and BGM across all scenes. It is loaded via the `AudioSceneLoader` which ensures the `AudioSystem` scene is present.
-*   **Input Handling**: Uses the New Input System for mouse-based movement and click actions.
-*   **UI Architecture**: Built using Unity UI Toolkit (UITK) for all screens, utilizing `.uxml` and `.uss` files for layout and styling.
-*   **Game State**: Primarily managed within `PlayerController` (HP/XP) and `EnemySpawner` (Wave logic).
-
-`Location: Assets/Scripts/`
+*   **Game Management**: The `PlayerController` acts as the primary orchestrator for player state, health, and XP. Scene transitions are handled by specialized controllers like `GameStartController` and `TitleScreenController`.
+*   **Audio System**: Uses a Singleton `AudioManager` that persists across scenes via `DontDestroyOnLoad`. It uses a dictionary-based lookup for `AudioID` to play SFX and BGM through designated `AudioMixerGroups`.
+*   **UI Integration**: Uses Unity's **UI Toolkit (UITK)**. Scripts like `LevelUpUI` and `PlayerHUD` bind to `UIDocument` elements to update the interface based on gameplay data.
+*   **Input**: Utilizes the **New Input System** to track mouse position and button clicks.
 
 ## 4. Game Systems & Domain Concepts
 
 ### Combat & Reflection System
-*   `Projectile`: Represents enemy bullets that travel in a direction. It contains a `Reflect` method that changes its owner and speed upon hitting a barrier.
-*   `Barrier`: Attached to the player; it uses a `CircleCollider2D` (trigger) to detect projectiles and calculate reflection vectors based on the collision normal.
-*   `Enemy`: AI that moves towards or away from the player based on a "keep distance" parameter and fires staggered projectile bursts.
+A physics-based system where projectiles interact with a circular player barrier.
+*   `Projectile`: Handles movement, collision detection, and state tracking (is it reflected?).
+*   `Barrier`: A triggered collider that calculates reflection vectors based on the collision normal between the projectile and the barrier center.
+*   `Enemy`: AI that moves relative to the player and shoots projectiles in patterns (spread, repeat).
+*   **Extension**: Add new projectile types by inheriting from or modifying `Projectile`, or create new `Enemy` prefabs with different `Shoot` parameters.
+*   **Location**: `Assets/Scripts/`
 
-`Location: Assets/Scripts/`
+### Progression & Upgrade System
+A state-machine-like loop that manages player growth.
+*   `PlayerController`: Tracks `currentXP`, `level`, and applies stat multipliers.
+*   `LevelUpUI`: Manages the UITK-based upgrade screen, pausing the game (`Time.timeScale = 0`) and providing callback actions for chosen upgrades.
+*   **Extension**: New upgrades can be added by adding buttons to the `LevelUpUI.uxml` and registering new callback methods in `LevelUpUI.cs`.
+*   **Location**: `Assets/Scripts/`
 
-### Level-Up & Progression
-*   `PlayerController`: Acts as the data owner for XP and Level. It calculates the `xpToNextLevel` using a multiplier (25% increase per level).
-*   `LevelUpUI`: A UI controller that pauses the game (`Time.timeScale = 0`) and presents a choice of three upgrades.
-*   `Upgrade Logic`: Upgrades are applied directly to the `PlayerController` properties (e.g., `moveSpeed *= 1.15f`).
-
-`Location: Assets/Scripts/`
-
-### Enemy Spawning
-*   `EnemySpawner`: Manages the instantiation of enemy prefabs at randomized positions outside the camera view. It scales difficulty over time by decreasing spawn intervals.
-
-`Location: Assets/Scripts/`
+### Audio Management
+A centralized system for playing sounds using enums and serialized data.
+*   `AudioManager`: Singleton manager that handles `AudioSource` pooling (via specific sources for SFX/BGM) and `AudioMixer` routing.
+*   `AudioID`: An enum that acts as a strongly-typed key for audio clips.
+*   **Design Pattern**: Singleton Pattern.
+*   **Location**: `Assets/Scripts/`
 
 ## 5. Scene Overview
-*   **TitleScreen**: Entry point. Contains `TitleScreenController`.
-*   **Main**: The core gameplay arena. Contains the player, enemy spawner, and HUD.
-*   **AudioSystem**: A specialized scene containing the `AudioManager` and `AudioListener`. It is loaded additively and marked with `DontDestroyOnLoad`.
-*   **GameOver**: Displayed upon player death. Shows final stats and retry options.
-
-`Location: Assets/Scenes/`
+*   **TitleScreen**: Entry point. Displays the background and logo with ripple shaders. Uses `TitleScreenController`.
+*   **Main**: The primary gameplay scene. Contains the `Player`, `EnemySpawner`, and the level bounds.
+*   **AudioSystem**: A bootstrap scene or additive scene used to initialize the `AudioManager`.
+*   **GameOver**: Displayed upon player death. Shows final stats and offers a retry option.
 
 ## 6. UI System
-The project uses **Unity UI Toolkit (UITK)** for its modern layout and styling capabilities.
-
-*   **UI Structure**: Each screen consists of a `UIDocument` component linking to a `.uxml` file.
-*   **Binding**: Logic is handled in C# scripts (e.g., `PlayerHUD.cs`, `LevelUpUI.cs`) which query the root `VisualElement` using `Q<T>()` to bind labels, bars, and buttons.
-*   **Styling**: CSS-like `.uss` files handle hover states, animations (using transition classes like `option-card--hidden`), and layout.
-*   **Screens**:
-    *   `Main`: HUD showing HP and XP progress bars.
-    *   `LevelUpUI`: Modal overlay with choice buttons.
-    *   `Title_Screen` / `GameOver`: Full-screen menus.
-
-`Location: Assets/UI/`
+The project uses **UI Toolkit (UITK)** for all menus and HUD elements.
+*   **Framework**: UITK (`.uxml` for structure, `.uss` for styling).
+*   **HUD**: `PlayerHUD.cs` (or logic within `PlayerController`) updates health and XP bars in real-time.
+*   **Menus**: `LevelUpUI` uses classes like `option-card--hidden` and `option-card--selected` to trigger USS-based transitions and animations.
+*   **Logic**: UI scripts find elements using `rootVisualElement.Q<T>(name)` and subscribe to events like `.clicked`.
+*   **Location**: `Assets/UI/` and `Assets/Scripts/`
 
 ## 7. Asset & Data Model
-*   **Prefabs**: 
-    *   `Enemy.prefab`: Base enemy with customizable movement and shooting parameters.
-    *   `Projectile.prefab`: Shared projectile with variable speed and sprites.
-*   **AudioID**: An enum-based system (`AudioID.cs`) used to reference sounds in the `AudioManager` without hard-coded strings.
-*   **Animations**: Uses the Animator component for character walks (`Player_Walk.anim`) and visual effects like `Flame_Death.anim`.
-*   **Shaders**: Custom URP shaders for visual juice, including `ColorPulse.shader` for background effects and `Title_Logo_Ripple.shader`.
-
-`Location: Assets/Prefabs/`, `Assets/Shaders/`
+*   **Prefabs**: Enemies (`Enemy.prefab`, `Enemy_Bat.prefab`) and projectiles are stored as prefabs for the `EnemySpawner` and `Enemy` scripts to instantiate.
+*   **AudioData**: Audio clips and their settings (volume, reverb) are defined in a serialized list within the `AudioManager` inspector.
+*   **ScriptableObjects**: URP settings and Volume Profiles define the visual look, including bloom and color grading for the death sequence.
+*   **Naming Conventions**:
+    *   Scripts: PascalCase (e.g., `PlayerController.cs`).
+    *   Prefabs: PascalCase (e.g., `Enemy_ZombieMage.prefab`).
+    *   Sprites: Category_Description (e.g., `Bullet_Red.png`, `Icon_MoveSpeed.png`).
 
 ## 8. Notes, Caveats & Gotchas
-*   **Time Scaling**: The `LevelUpUI` and `DeathRoutine` use `Time.timeScale = 0`. Any logic or animations (like the `AudioManager` or UI transitions) intended to run during these states must use `UnscaledTime`.
-*   **Scene Loading**: The `AudioSystem` scene must be present for any sound to play. If running the `Main` scene directly in the editor, ensure the `AudioSceneLoader` is active to additively load the audio system.
-*   **Visuals Hierarchy**: The `PlayerController` expects a child object named "Visuals" to handle animations and sprite flipping; if missing, it defaults to the root transform.
-*   **Reflection Logic**: Reflection is calculated using the vector from the barrier's center to the projectile. Precise timing is required as the barrier has a short duration and a significant cooldown.
+*   **Time Scaling**: The `LevelUpUI` and `DeathRoutine` manipulate `Time.timeScale`. UI animations and the death sequence use `UnscaledTime` to ensure they continue playing while the game world is paused.
+*   **Collision Layers**: Reflection logic depends on the `Projectile` having a `CircleCollider2D` and being on a layer that interacts with the `Barrier`'s trigger.
+*   **Visuals Sub-Object**: `PlayerController` expects a child object named "Visuals" to handle animations and sprite flipping independently of the root transform's logic.
+*   **UI Layout**: Ensure `PanelSettings` in `Assets/UI/` is correctly assigned to all `UIDocument` components to maintain consistent scaling across resolutions.

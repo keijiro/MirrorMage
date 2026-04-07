@@ -71,7 +71,10 @@ public class EnemySpawner : MonoBehaviour
         GameObject selectedPrefab = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
         if (selectedPrefab == null) return;
 
-        Vector3 spawnPos = GetRandomSpawnPosition();
+        Enemy enemyComp = selectedPrefab.GetComponent<Enemy>();
+        Vector3 spawnPos = (enemyComp != null && enemyComp.spawnInsideScreen) 
+            ? GetRandomInsidePosition() 
+            : GetRandomSpawnPosition();
 
         // Ensure we don't spawn too close to the player
         if (_player != null)
@@ -79,15 +82,30 @@ public class EnemySpawner : MonoBehaviour
             int maxRetries = 10;
             while (Vector2.Distance(spawnPos, _player.transform.position) < minPlayerDistance && maxRetries > 0)
             {
-                spawnPos = GetRandomSpawnPosition();
+                spawnPos = (enemyComp != null && enemyComp.spawnInsideScreen) 
+                    ? GetRandomInsidePosition() 
+                    : GetRandomSpawnPosition();
                 maxRetries--;
             }
         }
 
         Instantiate(selectedPrefab, spawnPos, Quaternion.identity);
-    }
+        }
 
-    private Vector3 GetRandomSpawnPosition()
+        private Vector3 GetRandomInsidePosition()
+        {
+        float height = 2f * _cam.orthographicSize;
+        float width = height * _cam.aspect;
+
+        // Give a small margin (0.85f) to ensure they aren't right on the edge
+        float x = Random.Range(-width / 2f, width / 2f) * 0.85f;
+        float y = Random.Range(-height / 2f, height / 2f) * 0.85f;
+
+        Vector3 camPos = _cam.transform.position;
+        return new Vector3(camPos.x + x, camPos.y + y, 0f);
+        }
+
+        private Vector3 GetRandomSpawnPosition()
     {
         // Get camera bounds in world space
         float height = 2f * _cam.orthographicSize;

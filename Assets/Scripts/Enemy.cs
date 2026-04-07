@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 2f;
     public float moveDistance = 3f;
     public float keepDistance = 0f;
+    public bool isStationary = false;
+    public bool spawnInsideScreen = false;
 
     [Header("Combat Settings")]
     public GameObject projectilePrefab;
@@ -19,9 +21,10 @@ public class Enemy : MonoBehaviour
     [Header("Visuals & Rewards")]
     public float xpValue = 25f;
     public GameObject deathEffectPrefab;
+    public GameObject spawnEffectPrefab;
 
     private Transform _player;
-private SpriteRenderer _spriteRenderer;
+    private SpriteRenderer _spriteRenderer;
     private Animator _animator;
     private bool _isDying = false;
 
@@ -29,6 +32,11 @@ private SpriteRenderer _spriteRenderer;
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
+
+        if (spawnEffectPrefab != null)
+        {
+            Instantiate(spawnEffectPrefab, transform.position, Quaternion.identity);
+        }
 
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null) _player = playerObj.transform;
@@ -70,17 +78,20 @@ private SpriteRenderer _spriteRenderer;
             if (moveDirection.x > 0.05f) _spriteRenderer.flipX = true;
             else if (moveDirection.x < -0.05f) _spriteRenderer.flipX = false;
 
-            // Randomized move distance (+/- 20% variance)
-            float targetMoveDistance = Random.Range(moveDistance * 0.8f, moveDistance * 1.2f);
-
-            // Move phase
-            float distanceTraveled = 0f;
-            while (distanceTraveled < targetMoveDistance && !_isDying && moveDirection != Vector2.zero)
+            if (!isStationary)
             {
-                Vector3 moveDelta = (Vector3)moveDirection * moveSpeed * Time.deltaTime;
-                transform.Translate(moveDelta);
-                distanceTraveled += moveDelta.magnitude;
-                yield return null;
+                // Randomized move distance (+/- 20% variance)
+                float targetMoveDistance = Random.Range(moveDistance * 0.8f, moveDistance * 1.2f);
+
+                // Move phase
+                float distanceTraveled = 0f;
+                while (distanceTraveled < targetMoveDistance && !_isDying && moveDirection != Vector2.zero)
+                {
+                    Vector3 moveDelta = (Vector3)moveDirection * moveSpeed * Time.deltaTime;
+                    transform.Translate(moveDelta);
+                    distanceTraveled += moveDelta.magnitude;
+                    yield return null;
+                }
             }
 
             if (_isDying) yield break;
