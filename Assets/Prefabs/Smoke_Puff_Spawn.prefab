@@ -127,4 +127,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950ea46e001f64c30bfdc84167445b76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AutoDestroyEffect
-  delay: 1.3333334
+  delay: 1.2916666
