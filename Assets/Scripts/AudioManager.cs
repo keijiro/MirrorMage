@@ -16,11 +16,11 @@ public class AudioManager : MonoBehaviour
     }
 
     [Header("Clips")]
-    [SerializeField] private AudioData[] audioDataList;
+    [SerializeField] private AudioData[] audioDataList = default;
 
     [Header("Mixer Settings")]
-    [SerializeField] private AudioMixerGroup bypassGroup;
-    [SerializeField] private AudioMixerGroup reverbGroup;
+    [SerializeField] private AudioMixerGroup bypassGroup = default;
+    [SerializeField] private AudioMixerGroup reverbGroup = default;
 
     private Dictionary<AudioID, AudioClip> _clipDict = new Dictionary<AudioID, AudioClip>();
     private Dictionary<AudioID, float> _volumeDict = new Dictionary<AudioID, float>();
