@@ -96,18 +96,22 @@
     height: 120px;
     margin-bottom: 12px;
     -unity-background-scale-mode: scale-to-fit;
+    border-radius: 15px;
+    border-color: #7f8c8d;
+    border-width: 3px;
+    overflow: hidden;
 }
 
 #moveSpeedIcon {
-    background-image: url("project://database/Assets/UI/Icons/Icon_MoveSpeed.png?fileID=21300000&guid=4a04fcc21ed36408eba1dfef55547dfe&type=3");
+    background-image: url("project://database/Assets/UI/Icons/Icon_MoveSpeed.png?fileID=21300000&guid=e06e5af7f935941b28a8b91a1351d324&type=3");
 }
 
 #chargeSpeedIcon {
-    background-image: url("project://database/Assets/UI/Icons/Icon_ChargeSpeed.png?fileID=21300000&guid=712440d84eb8a468891a7be76648d8f8&type=3");
+    background-image: url("project://database/Assets/UI/Icons/Icon_ChargeSpeed.png?fileID=21300000&guid=2819b6a57ebbc472cbb65dd3a0d79f5f&type=3");
 }
 
 #barrierStrengthIcon {
-    background-image: url("project://database/Assets/UI/Icons/Icon_BarrierStrength.png?fileID=21300000&guid=03a91e6ca9c8b41c395a0628470786c9&type=3");
+    background-image: url("project://database/Assets/UI/Icons/Icon_BarrierStrength.png?fileID=21300000&guid=70c61763409c2406dbbc71bd85f1363c&type=3");
 }
 
 .option-title {

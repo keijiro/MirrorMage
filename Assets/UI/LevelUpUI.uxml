@@ -12,13 +12,13 @@
             <ui:Button name="btnChargeSpeed" class="option-card">
                 <ui:VisualElement name="chargeSpeedIcon" class="option-icon" picking-mode="Ignore" />
                 <ui:Label text="Charge Speed" class="option-title" />
-                <ui:Label text="Reduce barrier cooldown time by 15%." class="option-description" />
+                <ui:Label text="Reduce magic cooldown time by 15%." class="option-description" />
                 <ui:Label text="SELECT" class="option-button" />
             </ui:Button>
             <ui:Button name="btnBarrierStrength" class="option-card">
                 <ui:VisualElement name="barrierStrengthIcon" class="option-icon" picking-mode="Ignore" />
-                <ui:Label text="Barrier Strength" class="option-title" />
-                <ui:Label text="Increase barrier duration by 20% and size by 15%." class="option-description" />
+                <ui:Label text="Magic Strength" class="option-title" />
+                <ui:Label text="Increase magic duration by 20% and size by 15%." class="option-description" />
                 <ui:Label text="SELECT" class="option-button" />
             </ui:Button>
         </ui:VisualElement>
