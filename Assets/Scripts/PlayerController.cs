@@ -135,7 +135,6 @@ public class PlayerController : MonoBehaviour
     {
         _isBarrierActive = true;
         _barrierTimer = barrierDuration;
-        Debug.Log("Barrier Activated!");
         if (_barrierScript != null) _barrierScript.Activate();
         else if (barrierObject != null) barrierObject.SetActive(true);
     }
@@ -144,7 +143,6 @@ public class PlayerController : MonoBehaviour
     {
         _isBarrierActive = false;
         _cooldownTimer = barrierCooldown;
-        Debug.Log("Barrier Deactivated! Cooldown started.");
         if (_barrierScript != null) _barrierScript.Deactivate();
         else if (barrierObject != null) barrierObject.SetActive(false);
     }
@@ -179,12 +177,11 @@ public class PlayerController : MonoBehaviour
         currentLevel++;
         xpToNextLevel *= 1.25f; // Increase next level requirement (25% more each time)
         _currentHealth = maxHealth; // Reward: Full heal
-        Debug.Log($"Level Up! Now Level {currentLevel}");
 
         AudioManager.PlaySFX(AudioID.SFX_Level_Up);
 
         if (levelUpUI != null)
-{
+        {
             levelUpUI.Show(this);
         }
     }
@@ -195,14 +192,12 @@ public class PlayerController : MonoBehaviour
 
         _currentHealth -= amount;
         _currentHealth = Mathf.Clamp(_currentHealth, 0f, maxHealth);
-        Debug.Log($"Player took {amount} damage! Current HP: {_currentHealth}");
 
         // Always play damage sound
         AudioManager.PlaySFX(AudioID.SFX_Player_Damage);
 
         if (_currentHealth <= 0)
         {
-            Debug.Log("Player Died!");
             _isDead = true;
             AudioManager.PlaySFX(AudioID.SFX_Player_Death);
             StartCoroutine(DeathRoutine());
@@ -338,9 +333,9 @@ public class PlayerController : MonoBehaviour
         // Phase 5: Wait and Load Game Over
         yield return new WaitForSecondsRealtime(0.4f);
         SceneManager.LoadScene("GameOver");
-        }
+    }
 
-                    private System.Collections.IEnumerator DamageRoutine()
+    private System.Collections.IEnumerator DamageRoutine()
     {
         _isInvincible = true;
         EnsureVisuals();

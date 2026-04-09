@@ -149,7 +149,6 @@ selectedBtn.AddToClassList(FLASH_CLASS);
         if (_player != null)
         {
             _player.moveSpeed *= 1.15f;
-            Debug.Log("Move Speed Upgraded: " + _player.moveSpeed);
         }
     }
 
@@ -159,7 +158,6 @@ selectedBtn.AddToClassList(FLASH_CLASS);
         {
             _player.barrierCooldown *= 0.85f;
             _player.barrierCooldown = Mathf.Max(_player.barrierCooldown, 1f);
-            Debug.Log("Barrier Cooldown Upgraded: " + _player.barrierCooldown);
         }
     }
 
@@ -172,7 +170,6 @@ selectedBtn.AddToClassList(FLASH_CLASS);
             {
                 _player.barrierObject.transform.localScale *= 1.15f;
             }
-            Debug.Log("Barrier Strength Upgraded: Duration " + _player.barrierDuration);
         }
     }
 }
